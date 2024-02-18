@@ -1,0 +1,59 @@
+.spacer {
+  flex: 1 1 auto;
+}
+
+#menu-item button {
+  display: block;
+  margin: 0 auto;
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+  margin-right: 280px;
+  border-radius: 25px;
+  background-color: #fff;
+  padding: 1px 10px;
+  width: 80%;
+  max-width: 500px;
+}
+
+.search-form input {
+  border: none;
+  flex-grow: 1;
+  font-size: 16px;
+  margin-right: 5px;
+  outline: none;
+}
+
+.search-form button {
+  margin-left: -20px;
+  outline: none;
+  background-color: #fff;
+  color: #333;
+}
+.search-form button:hover {
+  background-color: #ddd;
+  color: #333;
+}
+
+.search-form input::placeholder {
+  color: #999;
+  font-size: 14px;
+}
+
+.search-form input:focus {
+  box-shadow: none;
+}
+
+.profile-image {
+  border-radius: 50%;
+  width: 35px; /* увеличьте размеры аватарки */
+  height: 35px; /* увеличьте размеры аватарки */
+  object-fit: cover; /* добавьте это свойство, чтобы изображение заполнило круг */
+}
+
+.profile-button {
+  display: flex;
+  align-items: center;
+}
