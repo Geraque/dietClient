@@ -12,15 +12,6 @@
     <tr *ngFor="let day of daysOfWeek">
       <td>{{ day }}</td>
       <td *ngFor="let meal of eatingTimes">
-        <div *ngFor="let plan of plans">
-          <!-- Проверим, соответствует ли план разделу календаря где он должен быть показан -->
-          <ng-container *ngIf="isPlanForDayAndMeal(plan, day, meal)">
-            <!-- Теперь покажем ингредиенты для этого плана -->
-            <div *ngFor="let ingredient of plan.ingredients">
-              {{ ingredient.count }} x {{ ingredient.ingredient.name }}
-            </div>
-          </ng-container>
-        </div>
         <div *ngFor="let ingredientDay of getIngredientsForDayAndMeal(day, meal)">
           {{ ingredientDay.count }} x {{ ingredientDay.ingredient.name }}
         </div>

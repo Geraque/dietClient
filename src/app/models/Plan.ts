@@ -1,8 +1,5 @@
-export interface Ingredient {
-ingredientId: number;
+export interface Plan {
+  planId: number;
 name: string;
-proteins: number;
-fat: number;
-carbohydrates: number;
-calories: number;
+days: Day[];
 }

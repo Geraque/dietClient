@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IngredientService } from '../../service/ingredient.service';
 import { PlanService } from '../../service/plan.service';
+import {Day} from '../../models/Day';
 
 enum DayOfWeek {
 MONDAY = 'Понедельник',
@@ -28,7 +29,7 @@ daysOfWeek = Object.values(DayOfWeek);
 eatingTimes = Object.values(EatingTime);
 ingredients = [];
 selectedAmount = {};
-plans = [];
+plans: Day[];
 
 constructor(private ingredientService: IngredientService, private planService: PlanService) {}
 
@@ -51,9 +52,11 @@ constructor(private ingredientService: IngredientService, private planService: P
 
   getPlans() {
     this.planService.getPlansForCurrentUser().subscribe(
-      data => {
-        this.plans = data[0]; // Предполагаем, что возвращается массив дней
-        console.log(`Added ${data[0].days[0].ingredients[0].ingredient.name}`);
+      plansData => {
+        // Здесь предполагается что plansData это массив из одного Plan объекта
+        const currentPlan = plansData[0];
+        console.log(`Added ${plansData[0].days[0].ingredients[0].ingredient.name}`);
+        this.plans = currentPlan.days;
       },
       error => {
         console.error(error);
@@ -76,22 +79,13 @@ constructor(private ingredientService: IngredientService, private planService: P
 
     // Функция для получения ингредиентов с учетом дня недели и приема пищи
   getIngredientsForDayAndMeal(dayOfWeek: DayOfWeek, eatingTime: EatingTime) {
-      // Преобразование енума в строку, соответствующую тем, что приходит с бекенда
-
-      const backendDay = dayOfWeek.toUpperCase();
-      const backendMeal = eatingTime.toUpperCase();
-      console.log(`Added2 ${this.plans[0]}`);
-
-      // Поиск соответствующего плана
-      const dayPlan = this.plans.find(plan =>
-        plan.day === backendDay && plan.eatingTime === backendMeal
-      );
-      return dayPlan ? dayPlan.ingredients : [];
-  }
-
-  isPlanForDayAndMeal(plan: any, day: DayOfWeek, meal: EatingTime): boolean {
-    const backendDay = day.toUpperCase();
-    const backendMeal = meal.toUpperCase();
-    return plan.day === backendDay && plan.eatingTime === backendMeal;
+    const backendDay = dayOfWeek.toUpperCase();
+    const backendMeal = eatingTime.toUpperCase();
+    console.log(`Added22 ${this.plans[0].day}`);
+    const dayPlan = this.plans.find(plan =>
+      plan.day === backendDay && plan.eatingTime === backendMeal
+    );
+    return dayPlan ? dayPlan.dayId : [];
+    dayPlan.dayId
   }
 }
