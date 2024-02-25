@@ -4,6 +4,7 @@ import { PlanService } from '../../service/plan.service';
 import {Day} from '../../models/Day';
 import {DayOfWeek} from '../../models/DayOfWeek';
 import {EatingTime} from '../../models/EatingTime';
+import {Plan} from '../../models/Plan';
 
 @Component({
 selector: 'app-index',
@@ -15,8 +16,9 @@ daysOfWeek = Object.values(DayOfWeek);
 eatingTimes = Object.values(EatingTime);
 ingredients = [];
 selectedAmount = {};
-plans: Day[];
 planId: number;
+plans: Plan[];
+selectedPlanId: number;
 
 constructor(private ingredientService: IngredientService, private planService: PlanService) {}
 
@@ -40,11 +42,12 @@ constructor(private ingredientService: IngredientService, private planService: P
   getPlans() {
     this.planService.getPlansForCurrentUser().subscribe(
       plansData => {
-        // Здесь предполагается что plansData это массив из одного Plan объекта
-        const currentPlan = plansData[0];
-        console.log(`Added ${plansData[0].days[0].ingredients[0].ingredient.name}`);
-        this.plans = currentPlan.days;
-        this.planId = currentPlan.planId;
+        // Теперь мы предполагаем, что plansData это массив Plan объектов, а не один объект
+        this.plans = plansData;
+        // Установим selectedPlanId для первого плана в массиве по умолчанию, если планы существуют
+        if (this.plans && this.plans.length > 0) {
+          this.selectedPlanId = this.plans[0].planId;
+        }
       },
       error => {
         console.error(error);
@@ -87,10 +90,21 @@ constructor(private ingredientService: IngredientService, private planService: P
   getIngredientsForDayAndMeal(dayOfWeek: DayOfWeek, eatingTime: EatingTime) {
     const backendDay = dayOfWeek.toUpperCase();
     const backendMeal = eatingTime.toUpperCase();
-    const dayPlan = this.plans.find(plan =>
-      plan.day === backendDay && plan.eatingTime === backendMeal
-    );
-    return dayPlan ? dayPlan.ingredients : [];
+
+    // Находим текущий выбранный план по selectedPlanId из списка всех планов
+    const currentPlan = this.plans.find(plan => plan.planId === this.selectedPlanId);
+
+    // Если план найден, ищем в нем указанный день и прием пищи
+    if (currentPlan) {
+      const dayPlan = currentPlan.days.find(day =>
+        day.day === backendDay && day.eatingTime === backendMeal
+      );
+      // Возвращаем найденные ингредиенты или пустой массив, если таковые отсутствуют
+      return dayPlan ? dayPlan.ingredients : [];
+    } else {
+      // Если план не найден, возвращаем пустой массив
+      return [];
+    }
   }
 
   updateIngredientsForDayAndMeal(day: DayOfWeek, meal: EatingTime) {

@@ -1,4 +1,11 @@
 <div class="container">
+  <!-- Добавлен селектор для выбора плана -->
+  <select [(ngModel)]="selectedPlanId">
+    <option *ngFor="let plan of plans" [ngValue]="plan.planId">
+      План №{{ plan.planId }}
+    </option>
+  </select>
+
   <table>
     <thead>
     <tr>
@@ -21,7 +28,7 @@
           </option>
         </select>
         <input type="number" [(ngModel)]="selectedAmount[day][meal]" placeholder="Количество">
-        <button (click)="addIngredient(this.planId, day, meal, selectedIngredient.value, selectedAmount[day][meal])">Добавить</button>
+        <button (click)="addIngredient(selectedPlanId, day, meal, selectedIngredient.value, selectedAmount[day][meal])">Добавить</button>
       </td>
     </tr>
     </tbody>
