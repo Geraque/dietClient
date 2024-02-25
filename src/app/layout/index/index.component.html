@@ -15,13 +15,13 @@
         <div *ngFor="let ingredientDay of getIngredientsForDayAndMeal(day, meal)">
           {{ ingredientDay.count }} x {{ ingredientDay.ingredient.name }}
         </div>
-        <select (change)="onSelectIngredient($event, day, meal)">
-          <option *ngFor="let ingredient of ingredients" [value]="ingredient.ingredientId">
+        <select #selectedIngredient (change)="onSelectIngredient($event, day, meal)">
+          <option *ngFor="let ingredient of ingredients" [ngValue]="ingredient">
             {{ ingredient.name }}
           </option>
         </select>
         <input type="number" [(ngModel)]="selectedAmount[day][meal]" placeholder="Количество">
-        <button (click)="addIngredient(day, meal)">Добавить</button>
+        <button (click)="addIngredient(this.planId, day, meal, selectedIngredient.value, selectedAmount[day][meal])">Добавить</button>
       </td>
     </tr>
     </tbody>
