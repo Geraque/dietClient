@@ -34,4 +34,8 @@ constructor(private http: HttpClient) { }
   isAdmin(userId: number):Observable<any> {
     return this.http.post(USER_API +'isAdmin/'+ userId,null);
   }
+
+  isDiet():Observable<any> {
+    return this.http.post(USER_API +'isDiet',null);
+  }
 }

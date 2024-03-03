@@ -21,3 +21,11 @@ th {
 input[type="number"] {
     margin-top: 10px;
 }
+
+.text-green {
+    color: green;
+}
+
+.text-red {
+    color: red;
+}

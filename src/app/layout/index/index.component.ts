@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IngredientService } from '../../service/ingredient.service';
 import { PlanService } from '../../service/plan.service';
+import { UserService } from '../../service/user.service';
 import {Day} from '../../models/Day';
 import {DayOfWeek} from '../../models/DayOfWeek';
 import {EatingTime} from '../../models/EatingTime';
@@ -19,13 +20,30 @@ selectedAmount = {};
 planId: number;
 plans: Plan[];
 selectedPlanId: number;
+isDietician: boolean = false;
 
-constructor(private ingredientService: IngredientService, private planService: PlanService) {}
+constructor(
+  private ingredientService: IngredientService,
+  private planService: PlanService,
+  private userService: UserService) {}
 
   ngOnInit() {
+    this.checkIfDietician();
     this.getIngredients();
     this.getPlans();
     this.initializeAmounts();
+  }
+
+  checkIfDietician() {
+    // Подставьте актуальный идентификатор пользователя
+    this.userService.isDiet().subscribe({
+      next: (data) => {
+        this.isDietician = data; // предполагается, что ответом является boolean
+      },
+      error: (error) => {
+        console.error('Ошибка при проверке пользователя:', error);
+      }
+    });
   }
 
     getIngredients() {
@@ -84,6 +102,24 @@ constructor(private ingredientService: IngredientService, private planService: P
     } else {
       console.error('Ингредиент не выбран или количество указано не верно.');
     }
+  }
+
+  check(planId: number, day: DayOfWeek, meal: EatingTime, ingredient: any, count: number) {
+    console.log('planId:', planId);
+    console.log('day:', day);
+    console.log('meal:', meal);
+    console.log('ingredient:', ingredient);
+    console.log('count:', count);
+      this.planService.check(planId, day, meal, ingredient, count).subscribe(
+        response => {
+          console.log('Ингредиент check:', response);
+          // Тут можно добавить логику обновления UI
+          this.updateIngredientsForDayAndMeal(day, meal);
+        },
+        error => {
+          console.error('Ошибка при check ингредиента:', error);
+        }
+      );
   }
 
     // Функция для получения ингредиентов с учетом дня недели и приема пищи

@@ -1,5 +1,4 @@
 <div class="container">
-  <!-- Добавлен селектор для выбора плана -->
   <select [(ngModel)]="selectedPlanId">
     <option *ngFor="let plan of plans" [ngValue]="plan.planId">
       План №{{ plan.planId }}
@@ -19,16 +18,24 @@
     <tr *ngFor="let day of daysOfWeek">
       <td>{{ day }}</td>
       <td *ngFor="let meal of eatingTimes">
-        <div *ngFor="let ingredientDay of getIngredientsForDayAndMeal(day, meal)">
+        <div *ngFor="let ingredientDay of getIngredientsForDayAndMeal(day, meal)"
+             [ngClass]="{'text-green': isDietician && ingredientDay.checkIngredient === true,
+                 'text-red': isDietician && ingredientDay.checkIngredient === false}">
           {{ ingredientDay.count }} x {{ ingredientDay.ingredient.name }}
+
+          <!-- Кнопка "Подтвердить" видна только если пользователь не является диетологом -->
+          <button *ngIf="!isDietician" (click)="check(selectedPlanId, day, meal, ingredientDay.ingredient.name, ingredientDay.count)">Подтвердить</button>
         </div>
-        <select #selectedIngredient (change)="onSelectIngredient($event, day, meal)">
-          <option *ngFor="let ingredient of ingredients" [ngValue]="ingredient">
-            {{ ingredient.name }}
-          </option>
-        </select>
-        <input type="number" [(ngModel)]="selectedAmount[day][meal]" placeholder="Количество">
-        <button (click)="addIngredient(selectedPlanId, day, meal, selectedIngredient.value, selectedAmount[day][meal])">Добавить</button>
+        <!-- Элементы для добавления ингредиентов видны только если пользователь является диетологом -->
+        <ng-container *ngIf="isDietician">
+          <select #selectedIngredient (change)="onSelectIngredient($event, day, meal)">
+            <option *ngFor="let ingredient of ingredients" [ngValue]="ingredient">
+              {{ ingredient.name }}
+            </option>
+          </select>
+          <input type="number" [(ngModel)]="selectedAmount[day][meal]" placeholder="Количество">
+          <button (click)="addIngredient(selectedPlanId, day, meal, selectedIngredient.value, selectedAmount[day][meal])">Добавить</button>
+        </ng-container>
       </td>
     </tr>
     </tbody>
