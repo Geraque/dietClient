@@ -25,6 +25,21 @@
 
           <!-- Кнопка "Подтвердить" видна только если пользователь не является диетологом -->
           <button *ngIf="!isDietician" (click)="check(selectedPlanId, day, meal, ingredientDay.ingredient.name, ingredientDay.count)">Подтвердить</button>
+          <!-- Кнопка "Изменить", видна только если пользователь не является диетологом -->
+          <button *ngIf="!isDietician"
+                  (click)="enableEdit(ingredientDay)">Изменить</button>
+          <!-- Поля для редактирования, появляются в режиме редактирования -->
+          <div *ngIf="ingredientDay.editing">
+            <select [(ngModel)]="ingredientDay.selectedIngredient">
+              <option *ngFor="let ingredient of ingredients" [ngValue]="ingredient">
+                {{ ingredient.name }}
+              </option>
+            </select>
+            <input type="number" [(ngModel)]="ingredientDay.count" placeholder="Количество">
+            <button (click)="updateIngredient(selectedPlanId, day, meal, ingredientDay.ingredient,
+            ingredientDay.selectedIngredient || ingredientDay.ingredient, ingredientDay.count)">Сохранить изменения</button>
+            <button (click)="ingredientDay.editing = false">Отмена</button>
+          </div>
         </div>
         <!-- Элементы для добавления ингредиентов видны только если пользователь является диетологом -->
         <ng-container *ngIf="isDietician">

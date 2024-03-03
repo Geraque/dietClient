@@ -153,4 +153,27 @@ constructor(
     //   updatedPlanDay.ingredients.push({ /* Данные нового ингредиента */ });
     // }
   }
+
+  enableEdit(ingredientDay: any) {
+      ingredientDay.editing = true;
+      // Здесь также можно проинициализировать селектор со значением ингредиента, если нужно.
+      ingredientDay.selectedIngredient = ingredientDay.ingredient;
+  }
+
+  updateIngredient(planId: number, dayOfWeek: DayOfWeek, eatingTime: EatingTime, ingredientOld: any, ingredientNew: any, count: number) {
+      if (count > 0 && ingredientNew) {
+          this.planService.update(planId, dayOfWeek, eatingTime, ingredientOld.name, ingredientNew.name, count).subscribe(
+              response => {
+                  console.log('Ингредиент обновлен:', response);
+                  // Здесь можно обновить UI соответствующим образом
+                  this.updateIngredientsForDayAndMeal(dayOfWeek, eatingTime);
+              },
+              error => {
+                  console.error('Ошибка при обновлении ингредиента:', error);
+              }
+          );
+      } else {
+          console.error('Ингредиент не выбран или количество указано не верно.');
+      }
+  }
 }
