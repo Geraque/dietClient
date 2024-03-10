@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IngredientService } from '../../service/ingredient.service';
 import { PlanService } from '../../service/plan.service';
 import { UserService } from '../../service/user.service';
+import { HistoryService } from '../../service/history.service';
 import {Day} from '../../models/Day';
 import {DayOfWeek} from '../../models/DayOfWeek';
 import {EatingTime} from '../../models/EatingTime';
@@ -25,7 +26,8 @@ isDietician: boolean = false;
 constructor(
   private ingredientService: IngredientService,
   private planService: PlanService,
-  private userService: UserService) {}
+  private userService: UserService,
+  private historyService: HistoryService) {}
 
   ngOnInit() {
     this.checkIfDietician();
@@ -175,5 +177,24 @@ constructor(
       } else {
           console.error('Ингредиент не выбран или количество указано не верно.');
       }
+  }
+
+    toggleIngredientDetails(planId: number, dayOfWeek: DayOfWeek, eatingTime: EatingTime, ingredientDay: any) {
+    if (ingredientDay.showDetails) {
+      ingredientDay.showDetails = false;
+    } else {
+      this.historyService.last(planId, dayOfWeek, eatingTime, ingredientDay.ingredient.name).subscribe({
+        next: (data) => {
+          console.log('data.countOld:', data.countOld);
+          console.log('data.ingredientOld.name:', data.ingredientOld.name);
+          ingredientDay.countT = data.countOld
+          ingredientDay.name = data.ingredientOld.name
+          ingredientDay.showDetails = true;
+        },
+        error: (error) => {
+          console.error('Ошибка при получении дополнительной информации об ингредиенте:', error);
+        }
+      });
+    }
   }
 }

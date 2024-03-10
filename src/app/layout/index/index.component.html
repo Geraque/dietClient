@@ -22,12 +22,19 @@
              [ngClass]="{'text-green': isDietician && ingredientDay.checkIngredient === true,
                  'text-red': isDietician && ingredientDay.checkIngredient === false}">
           {{ ingredientDay.count }} x {{ ingredientDay.ingredient.name }}
-
+          <!-- Иконка стрелочки и дополнительная информация -->
+          <span *ngIf="isDietician && ingredientDay.checkIngredient === false" (click)="toggleIngredientDetails(selectedPlanId, day, meal, ingredientDay)">
+                &#x25BC;
+                <div *ngIf="ingredientDay.showDetails">
+                  <!-- Дополнительная информация отобразится здесь -->
+                  {{ ingredientDay.name }}: {{ ingredientDay.countT }}
+                </div>
+          </span>
           <!-- Кнопка "Подтвердить" видна только если пользователь не является диетологом -->
-          <button *ngIf="!isDietician" (click)="check(selectedPlanId, day, meal, ingredientDay.ingredient.name, ingredientDay.count)">Подтвердить</button>
-          <!-- Кнопка "Изменить", видна только если пользователь не является диетологом -->
-          <button *ngIf="!isDietician"
-                  (click)="enableEdit(ingredientDay)">Изменить</button>
+          <div *ngIf="ingredientDay.checkIngredient !== true && ingredientDay.checkIngredient !== false">
+            <button *ngIf="!isDietician" (click)="check(selectedPlanId, day, meal, ingredientDay.ingredient.name, ingredientDay.count)">Подтвердить</button>
+            <button *ngIf="!isDietician" (click)="enableEdit(ingredientDay)">Изменить</button>
+          </div>
           <!-- Поля для редактирования, появляются в режиме редактирования -->
           <div *ngIf="ingredientDay.editing">
             <select [(ngModel)]="ingredientDay.selectedIngredient">
