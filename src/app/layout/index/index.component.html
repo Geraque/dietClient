@@ -28,6 +28,7 @@
                 <div *ngIf="ingredientDay.showDetails">
                   <!-- Дополнительная информация отобразится здесь -->
                   {{ ingredientDay.name }}: {{ ingredientDay.countT }}
+                  <div *ngIf="ingredientDay.comment">Комментарий: {{ ingredientDay.comment }}</div>
                 </div>
           </span>
           <!-- Кнопка "Подтвердить" видна только если пользователь не является диетологом -->
@@ -43,8 +44,9 @@
               </option>
             </select>
             <input type="number" [(ngModel)]="ingredientDay.count" placeholder="Количество">
+            <input type="text" [(ngModel)]="ingredientDay.comment" placeholder="Комментарий">
             <button (click)="updateIngredient(selectedPlanId, day, meal, ingredientDay.ingredient,
-            ingredientDay.selectedIngredient || ingredientDay.ingredient, ingredientDay.count)">Сохранить изменения</button>
+            ingredientDay.selectedIngredient || ingredientDay.ingredient, ingredientDay.count, ingredientDay.comment)">Сохранить изменения</button>
             <button (click)="ingredientDay.editing = false">Отмена</button>
           </div>
         </div>

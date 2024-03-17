@@ -162,9 +162,9 @@ constructor(
       ingredientDay.selectedIngredient = ingredientDay.ingredient;
   }
 
-  updateIngredient(planId: number, dayOfWeek: DayOfWeek, eatingTime: EatingTime, ingredientOld: any, ingredientNew: any, count: number) {
+  updateIngredient(planId: number, dayOfWeek: DayOfWeek, eatingTime: EatingTime, ingredientOld: any, ingredientNew: any, count: number, comment: string) {
       if (count > 0 && ingredientNew) {
-          this.planService.update(planId, dayOfWeek, eatingTime, ingredientOld.name, ingredientNew.name, count).subscribe(
+          this.planService.update(planId, dayOfWeek, eatingTime, ingredientOld.name, ingredientNew.name, count, comment).subscribe(
               response => {
                   console.log('Ингредиент обновлен:', response);
                   // Здесь можно обновить UI соответствующим образом
@@ -189,6 +189,7 @@ constructor(
           console.log('data.ingredientOld.name:', data.ingredientOld.name);
           ingredientDay.countT = data.countOld
           ingredientDay.name = data.ingredientOld.name
+          ingredientDay.comment = data.comment
           ingredientDay.showDetails = true;
         },
         error: (error) => {

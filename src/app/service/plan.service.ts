@@ -40,11 +40,12 @@ constructor(private http: HttpClient) { }
 
   update(planId: number, dayOfWeek: DayOfWeek,
                         eatingTime: EatingTime, ingredientOld: string,
-                        ingredientNew: string, count: number): Observable<any> {
+                        ingredientNew: string, count: number, comment: string): Observable<any> {
     const uploadData = new FormData();
     uploadData.append('ingredientOld', ingredientOld);
     uploadData.append('ingredientNew', ingredientNew);
     uploadData.append('count', count.toString()); // Перевести число в строку
+    uploadData.append('comment', comment);
 
     // Исправьте запрос на POST и отправьте uploadData
     return this.http.post(PLAN_API + planId + '/' + dayOfWeek + '/' + eatingTime + '/update', uploadData);
