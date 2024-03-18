@@ -50,4 +50,8 @@ constructor(private http: HttpClient) { }
     // Исправьте запрос на POST и отправьте uploadData
     return this.http.post(PLAN_API + planId + '/' + dayOfWeek + '/' + eatingTime + '/update', uploadData);
   }
+
+  getTodayForCurrentUser(): Observable<any> {
+    return this.http.get(PLAN_API + 'today');
+  }
 }

@@ -1,0 +1,38 @@
+<div class="container">
+  <h2>Рацион на {{ currentDate | date: 'longDate' }}</h2>
+
+  <div *ngFor="let meal of mealsToday">
+    <h3>{{ meal.eatingTime | titlecase }}</h3>
+    <table>
+      <thead>
+      <tr>
+        <th>Ингредиент</th>
+        <th>Количество</th>
+        <th>Белки (г)</th>
+        <th>Жиры (г)</th>
+        <th>Углеводы (г)</th>
+        <th>Калории</th>
+        <!-- Оставлено место для кнопок редактирования, если пользователь - диетолог -->
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let ingredient of meal.ingredients">
+        <td>{{ ingredient.ingredient.name }}</td>
+        <td>{{ ingredient.count }} шт</td>
+        <td>{{ ingredient.ingredient.proteins }}</td>
+        <td>{{ ingredient.ingredient.fat }}</td>
+        <td>{{ ingredient.ingredient.carbohydrates }}</td>
+        <td>{{ ingredient.ingredient.calories }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="nutritional-values">
+    <h3>Суммарные питательные значения за день:</h3>
+    <p>Белки: {{ totalProteins }} г</p>
+    <p>Жиры: {{ totalFats }} г</p>
+    <p>Углеводы: {{ totalCarbohydrates }} г</p>
+    <p>Калории: {{ totalCalories }} ккал</p>
+  </div>
+</div>

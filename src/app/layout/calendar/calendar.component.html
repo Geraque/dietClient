@@ -1,0 +1,67 @@
+<div class="container">
+  <select [(ngModel)]="selectedPlanId">
+    <option *ngFor="let plan of plans" [ngValue]="plan.planId">
+      План №{{ plan.planId }}
+    </option>
+  </select>
+
+  <table>
+    <thead>
+    <tr>
+      <th>День недели</th>
+      <th>Завтрак</th>
+      <th>Обед</th>
+      <th>Ужин</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let day of daysOfWeekWithDates" [ngClass]="{'today-highlight': day.date === currentDate}">
+      <td>{{ day.name }} ({{ day.date }})</td>
+      <td *ngFor="let meal of eatingTimes">
+        <div *ngFor="let ingredientDay of getIngredientsForDayAndMeal(day.name, meal)"
+             [ngClass]="{'text-green': isDietician && ingredientDay.checkIngredient === true,
+                 'text-red': isDietician && ingredientDay.checkIngredient === false}">
+          {{ ingredientDay.count }} x {{ ingredientDay.ingredient.name }}
+          <!-- Иконка стрелочки и дополнительная информация -->
+          <span *ngIf="isDietician && ingredientDay.checkIngredient === false" (click)="toggleIngredientDetails(selectedPlanId, day, meal, ingredientDay)">
+                &#x25BC;
+                <div *ngIf="ingredientDay.showDetails">
+                  <!-- Дополнительная информация отобразится здесь -->
+                  {{ ingredientDay.name }}: {{ ingredientDay.countT }}
+                  <div *ngIf="ingredientDay.comment">Комментарий: {{ ingredientDay.comment }}</div>
+                </div>
+          </span>
+          <!-- Кнопка "Подтвердить" видна только если пользователь не является диетологом -->
+          <div *ngIf="ingredientDay.checkIngredient !== true && ingredientDay.checkIngredient !== false">
+            <button *ngIf="!isDietician" (click)="check(selectedPlanId, day, meal, ingredientDay.ingredient.name, ingredientDay.count)">Подтвердить</button>
+            <button *ngIf="!isDietician" (click)="enableEdit(ingredientDay)">Изменить</button>
+          </div>
+          <!-- Поля для редактирования, появляются в режиме редактирования -->
+          <div *ngIf="ingredientDay.editing">
+            <select [(ngModel)]="ingredientDay.selectedIngredient">
+              <option *ngFor="let ingredient of ingredients" [ngValue]="ingredient">
+                {{ ingredient.name }}
+              </option>
+            </select>
+            <input type="number" [(ngModel)]="ingredientDay.count" placeholder="Количество">
+            <input type="text" [(ngModel)]="ingredientDay.comment" placeholder="Комментарий">
+            <button (click)="updateIngredient(selectedPlanId, day, meal, ingredientDay.ingredient,
+            ingredientDay.selectedIngredient || ingredientDay.ingredient, ingredientDay.count, ingredientDay.comment)">Сохранить изменения</button>
+            <button (click)="ingredientDay.editing = false">Отмена</button>
+          </div>
+        </div>
+        <!-- Элементы для добавления ингредиентов видны только если пользователь является диетологом -->
+        <ng-container *ngIf="isDietician">
+          <select #selectedIngredient (change)="onSelectIngredient($event, day, meal)">
+            <option *ngFor="let ingredient of ingredients" [ngValue]="ingredient">
+              {{ ingredient.name }}
+            </option>
+          </select>
+          <input type="number" [(ngModel)]="selectedAmount[day][meal]" placeholder="Количество">
+          <button (click)="addIngredient(selectedPlanId, day, meal, selectedIngredient.value, selectedAmount[day][meal])">Добавить</button>
+        </ng-container>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
