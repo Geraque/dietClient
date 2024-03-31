@@ -5,5 +5,5 @@ export interface RealDay {
   day: string;
   eatingTime: string;
   ingredients: IngredientRealDay[];
-  date: Date;
+  date: string;
 }
