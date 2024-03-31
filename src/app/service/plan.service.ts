@@ -27,6 +27,17 @@ constructor(private http: HttpClient) { }
     return this.http.post(PLAN_API + planId + '/' + dayOfWeek + '/' + eatingTime + '/ingredient', uploadData);
   }
 
+  addIngredientReal(planId: number, dayOfWeek: DayOfWeek,
+                        eatingTime: EatingTime, ingredient: string,
+                        count: number): Observable<any> {
+    const uploadData = new FormData();
+    uploadData.append('ingredient', ingredient);
+    uploadData.append('count', count.toString()); // Перевести число в строку
+
+    // Исправьте запрос на POST и отправьте uploadData
+    return this.http.post(PLAN_API + planId + '/' + dayOfWeek + '/' + eatingTime + '/ingredient/real', uploadData);
+  }
+
   check(planId: number, dayOfWeek: DayOfWeek,
                         eatingTime: EatingTime, ingredient: string,
                         count: number): Observable<any> {

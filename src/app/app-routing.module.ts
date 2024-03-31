@@ -5,6 +5,7 @@ import {RegisterComponent} from './auth/register/register.component';
 import {IndexComponent} from './layout/index/index.component';
 import {CalendarComponent} from './layout/calendar/calendar.component';
 import {DayComponent} from './layout/day/day.component';
+import {RealDayComponent} from './layout/real-day/real-day.component';
 import {AuthGuardService} from './helper/auth-guard.service';
 
 const routes: Routes = [
@@ -13,6 +14,7 @@ const routes: Routes = [
   {path: 'main', component: IndexComponent, canActivate: [AuthGuardService]},
   {path: 'profile', component: CalendarComponent, canActivate: [AuthGuardService]},
   {path: 'day', component: DayComponent, canActivate: [AuthGuardService]},
+  {path: 'real-day', component: RealDayComponent, canActivate: [AuthGuardService]},
   {path: '', redirectTo: 'main', pathMatch: 'full'}
 ];
 

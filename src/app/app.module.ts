@@ -19,6 +19,7 @@ import { NavigationComponent } from './layout/navigation/navigation.component';
 import { IndexComponent } from './layout/index/index.component';
 import { CalendarComponent } from './layout/calendar/calendar.component';
 import { DayComponent } from './layout/day/day.component';
+import { RealDayComponent } from './layout/real-day/real-day.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { DayComponent } from './layout/day/day.component';
     NavigationComponent,
     IndexComponent,
     CalendarComponent,
-    DayComponent
+    DayComponent,
+    RealDayComponent
   ],
   imports: [
     BrowserModule,

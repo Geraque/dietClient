@@ -9,19 +9,19 @@ import {EatingTime} from '../../models/EatingTime';
 import {Plan} from '../../models/Plan';
 
 @Component({
-selector: 'app-index',
-templateUrl: './index.component.html',
-styleUrls: ['./index.component.css']
+  selector: 'app-index',
+  templateUrl: './index.component.html',
+  styleUrls: ['./index.component.css']
 })
 export class IndexComponent implements OnInit {
-daysOfWeek = Object.values(DayOfWeek);
-eatingTimes = Object.values(EatingTime);
-ingredients = [];
-selectedAmount = {};
-planId: number;
-plans: Plan[];
-selectedPlanId: number;
-isDietician: boolean = false;
+  daysOfWeek = Object.values(DayOfWeek);
+  eatingTimes = Object.values(EatingTime);
+  ingredients = [];
+  selectedAmount = {};
+  planId: number;
+  plans: Plan[];
+  selectedPlanId: number;
+  isDietician: boolean = false;
 
 constructor(
   private ingredientService: IngredientService,
