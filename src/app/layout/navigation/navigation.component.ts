@@ -69,6 +69,13 @@ constructor(
     });
   }
 
+  markAsDelete(id: number): void {
+    this.notificationAppService.delete(id).subscribe(() => {
+      this.notifications = this.notifications.filter(notif => notif.id !== id); // Обновление списка уведомлений после удаления
+      this.unreadNotifications = this.notifications.filter(notif => !notif.isRead).length;
+    });
+  }
+
   onSearch(event): void {
     event.preventDefault();
 

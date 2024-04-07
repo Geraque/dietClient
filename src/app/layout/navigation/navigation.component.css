@@ -57,3 +57,21 @@
   display: flex;
   align-items: center;
 }
+
+::ng-deep .mat-divider {
+  margin: 8px 0; /* Можно настроить отступ между уведомлениями */
+  border-top: 1px solid rgba(0, 0, 0, 0.12); /* Увеличиваем толщину разделяющей линии */
+}
+
+/* Данный код добавляет отступ внизу для последнего уведомления */
+::ng-deep .mat-menu-content {
+  padding-bottom: 8px;
+}
+
+.notification-text {
+  padding-left: 10px;
+}
+
+.notification-heading {
+  text-align: center;
+}

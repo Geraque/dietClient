@@ -17,6 +17,11 @@ export class NotificationAppService {
 
   read(id: number): Observable<any> {
     console.log(NOTIFICATION_API + id)
-    return this.http.post(NOTIFICATION_API + id, null);
+    return this.http.post(NOTIFICATION_API + id +'/read', null);
+  }
+
+  delete(id: number): Observable<any> {
+    console.log(NOTIFICATION_API + id)
+    return this.http.post(NOTIFICATION_API + id +'/delete', null);
   }
 }

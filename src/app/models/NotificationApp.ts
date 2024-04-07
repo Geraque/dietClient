@@ -5,4 +5,5 @@ export interface NotificationApp {
   text: string;
   isRead: boolean;
   date: string
+  isDeleted: boolean;
 }
