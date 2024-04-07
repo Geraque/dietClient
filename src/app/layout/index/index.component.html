@@ -1,7 +1,12 @@
 <div class="container">
+  <!-- Добавляем кнопку для создания нового плана -->
+  <div>
+    <input type="text" [(ngModel)]="newPlanName" placeholder="Название плана">
+    <button (click)="createPlan()">Создать план</button>
+  </div>
   <select [(ngModel)]="selectedPlanId">
     <option *ngFor="let plan of plans" [ngValue]="plan.planId">
-      План №{{ plan.planId }}
+      {{ plan.name }}
     </option>
   </select>
 

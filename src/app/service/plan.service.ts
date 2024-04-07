@@ -65,4 +65,11 @@ constructor(private http: HttpClient) { }
   getTodayForCurrentUser(): Observable<any> {
     return this.http.get(PLAN_API + 'today');
   }
+
+  createPlan(name: string): Observable<any> {
+    const uploadData = new FormData();
+    uploadData.append('name', name);
+    return this.http.post(PLAN_API + 'create', uploadData);
+  }
+
 }

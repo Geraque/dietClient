@@ -44,8 +44,6 @@ constructor(
         this.notifications = data;
         this.unreadNotifications = this.notifications.filter(notif => !notif.isRead).length;
       });
-      console.log("ZXCCCCCCCCCCCCCCCCC");
-      console.log(this.notifications);
         })
       this.imageService.getProfileImage()
         .subscribe(data => {

@@ -22,6 +22,7 @@ export class IndexComponent implements OnInit {
   plans: Plan[];
   selectedPlanId: number;
   isDietician: boolean = false;
+  newPlanName: string = '';
 
 constructor(
   private ingredientService: IngredientService,
@@ -197,5 +198,24 @@ constructor(
         }
       });
     }
+  }
+
+  // Добавляем функцию для создания нового плана
+  createPlan() {
+    if (!this.newPlanName.trim()) {
+      console.error('Название плана не может быть пустым.');
+      return;
+    }
+
+    this.planService.createPlan(this.newPlanName).subscribe({
+      next: (plan) => {
+        console.log('План создан:', plan);
+        this.getPlans(); // Обновляем список планов
+        this.selectedPlanId = plan.planId; // Устанавливаем созданный план как выбранный
+      },
+      error: (error) => {
+        console.error('Ошибка при создании плана:', error);
+      }
+    });
   }
 }
