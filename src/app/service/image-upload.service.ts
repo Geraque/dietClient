@@ -18,23 +18,12 @@ constructor(private http: HttpClient) { }
     return this.http.post(IMAGE_API + 'upload', uploadData);
   }
 
-  uploadImageToRecipe(file: File, recipeId: number): Observable<any> {
-    const uploadData = new FormData();
-    uploadData.append('file', file);
-
-    return this.http.post(IMAGE_API + recipeId + '/upload', uploadData);
-  }
-
   getProfileImage(): Observable<any> {
     return this.http.get(IMAGE_API + 'profileImage');
   }
 
   getSearchProfileImage(username: string): Observable<any> {
     return this.http.post(IMAGE_API + 'searchUser/profileImage/' + username, null);
-  }
-
-  getImageToRecipe(recipeId: number): any {
-    return this.http.get(IMAGE_API + recipeId + '/image');
   }
 
 }

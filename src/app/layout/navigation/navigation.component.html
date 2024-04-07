@@ -18,6 +18,21 @@
     <mat-icon>bookmark_border</mat-icon>
   </button>
 
+  <button matTooltip="Notifications" mat-icon-button [matMenuTriggerFor]="notificationsMenu" class="example-icon">
+    <mat-icon>notifications</mat-icon>
+    <span *ngIf="unreadNotifications > 0" class="notification-badge">{{unreadNotifications}}</span>
+  </button>
+  <mat-menu #notificationsMenu="matMenu">
+    <div *ngFor="let notification of notifications">
+      <mat-menu-item>
+        <h3>{{notification.heading}}</h3>
+        <p>{{notification.text}}</p>
+        <p>{{notification.date | date}}</p>
+        <button *ngIf="!notification.isRead" mat-button (click)="markAsRead(notification.id)">Прочитать</button>
+        <mat-icon *ngIf="!notification.isRead">mark_email_unread</mat-icon>
+      </mat-menu-item>
+    </div>
+  </mat-menu>
 
   <h3 *ngIf="isDataLoaded">{{this.user.firstname}} {{this.user.lastname}}</h3>
 
