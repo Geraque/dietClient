@@ -4,7 +4,11 @@
       План №{{ plan.planId }}
     </option>
   </select>
-
+  <div class="week-selector">
+    <button (click)="showPreviousWeek()">←</button>
+    <span>{{ currentWeekLabel }}</span>
+    <button (click)="showNextWeek()">→</button>
+  </div>
   <table>
     <thead>
     <tr>

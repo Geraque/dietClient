@@ -30,3 +30,6 @@ input[type="number"] {
     color: red;
 }
 
+.today-highlight td {
+    background-color: lightgrey;
+}

@@ -15,10 +15,10 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let day of daysOfWeek">
-      <td>{{ day }}</td>
+    <tr *ngFor="let day of daysOfWeekWithDates" [ngClass]="{'today-highlight': day.date === currentDate}">
+      <td>{{ day.name }} ({{ day.date }})</td>
       <td *ngFor="let meal of eatingTimes">
-        <div *ngFor="let ingredientDay of getIngredientsForDayAndMeal(day, meal)"
+        <div *ngFor="let ingredientDay of getIngredientsForDayAndMeal(day.name, meal)"
              [ngClass]="{'text-green': isDietician && ingredientDay.checkIngredient === true,
                  'text-red': isDietician && ingredientDay.checkIngredient === false}">
           {{ ingredientDay.count }} x {{ ingredientDay.ingredient.name }}

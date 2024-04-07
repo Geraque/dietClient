@@ -17,6 +17,9 @@ import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { NavigationComponent } from './layout/navigation/navigation.component';
 import { IndexComponent } from './layout/index/index.component';
+import { CalendarComponent } from './layout/calendar/calendar.component';
+import { DayComponent } from './layout/day/day.component';
+import { RealDayComponent } from './layout/real-day/real-day.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +27,10 @@ import { IndexComponent } from './layout/index/index.component';
     LoginComponent,
     RegisterComponent,
     NavigationComponent,
-    IndexComponent
+    IndexComponent,
+    CalendarComponent,
+    DayComponent,
+    RealDayComponent
   ],
   imports: [
     BrowserModule,

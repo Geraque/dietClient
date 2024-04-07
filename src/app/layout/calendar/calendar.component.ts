@@ -8,20 +8,24 @@ import {DayOfWeek} from '../../models/DayOfWeek';
 import {EatingTime} from '../../models/EatingTime';
 import {Plan} from '../../models/Plan';
 
+import * as moment from 'moment';
+
 @Component({
-  selector: 'app-index',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.css']
+selector: 'app-calendar',
+templateUrl: './calendar.component.html',
+styleUrls: ['./calendar.component.css']
 })
-export class IndexComponent implements OnInit {
-  daysOfWeek = Object.values(DayOfWeek);
-  eatingTimes = Object.values(EatingTime);
-  ingredients = [];
-  selectedAmount = {};
-  planId: number;
-  plans: Plan[];
-  selectedPlanId: number;
-  isDietician: boolean = false;
+export class CalendarComponent implements OnInit {
+daysOfWeek = Object.values(DayOfWeek);
+eatingTimes = Object.values(EatingTime);
+ingredients = [];
+selectedAmount = {};
+planId: number;
+plans: Plan[];
+selectedPlanId: number;
+isDietician: boolean = false;
+currentDate: string = moment().format('DD MM'); // Уже есть в вашем коде
+daysOfWeekWithDates: any[]; // Массив для хранения дней недели с датами
 
 constructor(
   private ingredientService: IngredientService,
@@ -34,6 +38,17 @@ constructor(
     this.getIngredients();
     this.getPlans();
     this.initializeAmounts();
+    const startOfWeek = moment().locale('ru').startOf('isoWeek'); // Начало текущей недели
+    console.log('startOfWeek:', startOfWeek);
+    this.daysOfWeekWithDates = Object.values(DayOfWeek).map((day, index) => {
+      // Получаем дату для каждого дня недели исходя из начала недели
+      const date = startOfWeek.clone().add(index, 'days').format('DD MM');
+
+      return {
+        name: day,
+        date: date
+      };
+    });
   }
 
   checkIfDietician() {
