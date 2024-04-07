@@ -75,3 +75,7 @@
 .notification-heading {
   text-align: center;
 }
+
+.notification-date {
+  padding-left: 140px;
+}

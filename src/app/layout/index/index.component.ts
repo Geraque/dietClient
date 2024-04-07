@@ -218,4 +218,17 @@ constructor(
       }
     });
   }
+
+  translateEnglishToRussianDay(englishDay: string): string {
+    const daysMapping: { [key: string]: string } = {
+      'MONDAY': 'ПОНЕДЕЛЬНИК',
+      'TUESDAY': 'ВТОРНИК',
+      'WEDNESDAY': 'СРЕДА',
+      'THURSDAY': 'ЧЕТВЕРГ',
+      'FRIDAY': 'ПЯТНИЦА',
+      'SATURDAY': 'СУББОТА',
+      'SUNDAY': 'ВОСКРЕСЕНЬЕ'
+    };
+    return daysMapping[englishDay] || '';
+  }
 }

@@ -171,7 +171,7 @@ export class RealDayComponent {
       // Функция для получения ингредиентов с учетом дня недели и приема пищи
     getIngredientsForDayAndMeal(dayOfWeek: DayOfWeek, eatingTime: EatingTime) {
       const backendDay = dayOfWeek.toUpperCase();
-      const backendDayRussian = this.translateRussianToEnglishDay(backendDay);
+      const backendDayRussian = this.translateEnglishToRussianDay(backendDay);
       const backendMeal = eatingTime.toUpperCase();
       console.log("1");
       // Находим текущий выбранный план по selectedPlanId из списка всех планов
@@ -295,17 +295,17 @@ export class RealDayComponent {
     console.log(this.currentWeek)
   }
 
-  translateRussianToEnglishDay(russianDay: string): string {
-  const daysMapping: { [key: string]: string } = {
-    'MONDAY': 'ПОНЕДЕЛЬНИК',
-    'TUESDAY': 'ВТОРНИК',
-    'WEDNESDAY': 'СРЕДА',
-    'THURSDAY': 'ЧЕТВЕРГ',
-    'FRIDAY': 'ПЯТНИЦА',
-    'SATURDAY': 'СУББОТА',
-    'SUNDAY': 'ВОСКРЕСЕНЬЕ'
-  };
-  return daysMapping[russianDay] || '';
+  translateEnglishToRussianDay(englishDay: string): string {
+    const daysMapping: { [key: string]: string } = {
+      'MONDAY': 'ПОНЕДЕЛЬНИК',
+      'TUESDAY': 'ВТОРНИК',
+      'WEDNESDAY': 'СРЕДА',
+      'THURSDAY': 'ЧЕТВЕРГ',
+      'FRIDAY': 'ПЯТНИЦА',
+      'SATURDAY': 'СУББОТА',
+      'SUNDAY': 'ВОСКРЕСЕНЬЕ'
+    };
+    return daysMapping[englishDay] || '';
   }
 
   getStartOfWeekDateFromMap(inputMap) {

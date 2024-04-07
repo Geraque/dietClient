@@ -27,7 +27,7 @@
       <mat-menu-item>
         <h3 class="notification-heading">{{notification.heading}}</h3>
         <p class="notification-text">{{notification.text}}</p>
-        <p class="notification-text">{{notification.date | date:'medium'}}</p>
+        <p class="notification-date">{{notification.date | date:'medium' | date: 'dd.MM.yyyy HH:mm'}}</p>
         <button *ngIf="!notification.isRead" mat-button (click)="markAsRead(notification.id)">Прочитать</button>
         <mat-icon *ngIf="!notification.isRead">mark_email_unread</mat-icon>
         <button mat-button (click)="markAsDelete(notification.id)">Удалить</button>
@@ -43,9 +43,9 @@
     <img class="profile-image" [src]="previewImgURL || formatImage(userProfileImage) || 'https://i.pinimg.com/originals/2c/0c/7e/2c0c7e4fb33f0d39f3c7573edc0cb68e.jpg'" alt="user image">
   </button>
   <mat-menu id="menu-item" #menu="matMenu">
-    <button mat-menu-item routerLink="/profile">Profile</button>
+    <button mat-menu-item routerLink="/profile">Профиль</button>
     <button (click)="logout()" mat-menu-item>
-      Logout
+      Выйти
     </button>
   </mat-menu>
 </mat-toolbar>
