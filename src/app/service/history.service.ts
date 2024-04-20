@@ -18,4 +18,11 @@ constructor(private http: HttpClient) { }
     uploadData.append('ingredientNew', ingredientNew);
     return this.http.post(HISTORY_API + planId + '/' + dayOfWeek + '/' + eatingTime + '/last', uploadData);
   }
+
+  lastReal(planId: number, dayOfWeek: DayOfWeek, eatingTime: EatingTime, ingredientNew: string, date : string): Observable<any> {
+    const uploadData = new FormData();
+    uploadData.append('ingredientNew', ingredientNew);
+    uploadData.append('date', date);
+    return this.http.post(HISTORY_API + planId + '/' + dayOfWeek + '/' + eatingTime + '/last/real', uploadData);
+  }
 }

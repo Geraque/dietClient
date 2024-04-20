@@ -129,13 +129,9 @@ export class RealDayComponent {
     }
 
     addIngredient(planId: number, day: DayOfWeek, meal: EatingTime, ingredient: any, count: number) {
-      console.log('planId:', planId);
-      console.log('day:', day);
-      console.log('meal:', meal);
-      console.log('ingredient:', ingredient);
-      console.log('count:', count);
+      const date = this.getDayFromDayOfWeek(day)
       if (count > 0 && ingredient) {
-        this.planService.addIngredientReal(planId, day, meal, ingredient, count).subscribe(
+        this.planService.addIngredientReal(planId, day, meal, ingredient, count, date).subscribe(
           response => {
             console.log('Ингредиент добавлен:', response);
             // Тут можно добавить логику обновления UI
@@ -151,21 +147,17 @@ export class RealDayComponent {
     }
 
     check(planId: number, day: DayOfWeek, meal: EatingTime, ingredient: any, count: number) {
-      console.log('planId:', planId);
-      console.log('day:', day);
-      console.log('meal:', meal);
-      console.log('ingredient:', ingredient);
-      console.log('count:', count);
-        this.planService.check(planId, day, meal, ingredient, count).subscribe(
-          response => {
-            console.log('Ингредиент check:', response);
-            // Тут можно добавить логику обновления UI
-            this.updateIngredientsForDayAndMeal(day, meal);
-          },
-          error => {
-            console.error('Ошибка при check ингредиента:', error);
-          }
-        );
+      const date = this.getDayFromDayOfWeek(day)
+      this.planService.checkReal(planId, day, meal, ingredient, count, date).subscribe(
+        response => {
+          console.log('Ингредиент check:', response);
+          // Тут можно добавить логику обновления UI
+          this.updateIngredientsForDayAndMeal(day, meal);
+        },
+        error => {
+          console.error('Ошибка при check ингредиента:', error);
+        }
+      );
     }
 
       // Функция для получения ингредиентов с учетом дня недели и приема пищи
@@ -173,7 +165,6 @@ export class RealDayComponent {
       const backendDay = dayOfWeek.toUpperCase();
       const backendDayRussian = this.translateEnglishToRussianDay(backendDay);
       const backendMeal = eatingTime.toUpperCase();
-      console.log("1");
       // Находим текущий выбранный план по selectedPlanId из списка всех планов
       const currentPlan = this.plans.find(plan => plan.planId === this.selectedPlanId);
 
@@ -192,14 +183,7 @@ export class RealDayComponent {
     }
 
     updateIngredientsForDayAndMeal(day: DayOfWeek, meal: EatingTime) {
-      // Обновляем список ингредиентов для данного дня и приема пищи.
-      // Для этого можно перезапросить данные у сервера или обновить локальный this.plans
-      this.getPlans(); // Пример обновления данных через запрос к серверу
-      // Альтернативно локальное обновление (без запроса к серверу) может выглядеть как-то так:
-      // const updatedPlanDay = this.plans.find(planDay => planDay.day === day && planDay.meal === meal);
-      // if (updatedPlanDay) {
-      //   updatedPlanDay.ingredients.push({ /* Данные нового ингредиента */ });
-      // }
+      this.getPlans();
     }
 
     enableEdit(ingredientDay: any) {
@@ -209,27 +193,29 @@ export class RealDayComponent {
     }
 
     updateIngredient(planId: number, dayOfWeek: DayOfWeek, eatingTime: EatingTime, ingredientOld: any, ingredientNew: any, count: number, comment: string) {
-        if (count > 0 && ingredientNew) {
-            this.planService.update(planId, dayOfWeek, eatingTime, ingredientOld.name, ingredientNew.name, count, comment).subscribe(
-                response => {
-                    console.log('Ингредиент обновлен:', response);
-                    // Здесь можно обновить UI соответствующим образом
-                    this.updateIngredientsForDayAndMeal(dayOfWeek, eatingTime);
-                },
-                error => {
-                    console.error('Ошибка при обновлении ингредиента:', error);
-                }
-            );
-        } else {
-            console.error('Ингредиент не выбран или количество указано не верно.');
-        }
+      const date = this.getDayFromDayOfWeek(dayOfWeek)
+      if (count > 0 && ingredientNew) {
+        this.planService.updateReal(planId, dayOfWeek, eatingTime, ingredientOld.name, ingredientNew.name, count, comment, date).subscribe(
+            response => {
+                console.log('Ингредиент обновлен:', response);
+                // Здесь можно обновить UI соответствующим образом
+                this.updateIngredientsForDayAndMeal(dayOfWeek, eatingTime);
+            },
+            error => {
+                console.error('Ошибка при обновлении ингредиента:', error);
+            }
+        );
+      } else {
+          console.error('Ингредиент не выбран или количество указано не верно.');
+      }
     }
 
-      toggleIngredientDetails(planId: number, dayOfWeek: DayOfWeek, eatingTime: EatingTime, ingredientDay: any) {
+    toggleIngredientDetails(planId: number, dayOfWeek: DayOfWeek, eatingTime: EatingTime, ingredientDay: any) {
+      const date = this.getDayFromDayOfWeek(dayOfWeek)
       if (ingredientDay.showDetails) {
         ingredientDay.showDetails = false;
       } else {
-        this.historyService.last(planId, dayOfWeek, eatingTime, ingredientDay.ingredient.name).subscribe({
+        this.historyService.lastReal(planId, dayOfWeek, eatingTime, ingredientDay.ingredient.name, date).subscribe({
           next: (data) => {
             console.log('data.countOld:', data.countOld);
             console.log('data.ingredientOld.name:', data.ingredientOld.name);
@@ -313,5 +299,17 @@ export class RealDayComponent {
     const dates = Array.from(inputMap.values()).sort();
     const startOfWeekDate = dates[0]; // Получаем начало недели, предполагая, что dates уже отсортирован
     return moment(startOfWeekDate, 'YYYY-MM-DD');
-}
+  }
+
+  getDayFromDayOfWeek(day: DayOfWeek) {
+    const date = this.translateEnglishToRussianDay(day)
+    this.currentWeek.forEach((value, key) => {
+      console.log(`${key}: ${value}`);
+    });
+    let result: string = this.currentWeek.get(date);
+    if(result === undefined) {
+      result = this.currentWeek.get(day)
+    }
+    return result;
+  }
 }

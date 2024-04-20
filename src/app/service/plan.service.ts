@@ -29,10 +29,11 @@ constructor(private http: HttpClient) { }
 
   addIngredientReal(planId: number, dayOfWeek: DayOfWeek,
                         eatingTime: EatingTime, ingredient: string,
-                        count: number): Observable<any> {
+                        count: number, date: string): Observable<any> {
     const uploadData = new FormData();
     uploadData.append('ingredient', ingredient);
     uploadData.append('count', count.toString()); // Перевести число в строку
+    uploadData.append('date', date);
 
     // Исправьте запрос на POST и отправьте uploadData
     return this.http.post(PLAN_API + planId + '/' + dayOfWeek + '/' + eatingTime + '/ingredient/real', uploadData);
@@ -49,6 +50,18 @@ constructor(private http: HttpClient) { }
     return this.http.post(PLAN_API + planId + '/' + dayOfWeek + '/' + eatingTime + '/check', uploadData);
   }
 
+  checkReal(planId: number, dayOfWeek: DayOfWeek,
+                        eatingTime: EatingTime, ingredient: string,
+                        count: number, date: string): Observable<any> {
+    const uploadData = new FormData();
+    uploadData.append('ingredient', ingredient);
+    uploadData.append('count', count.toString()); // Перевести число в строку
+    uploadData.append('date', date);
+
+    // Исправьте запрос на POST и отправьте uploadData
+    return this.http.post(PLAN_API + planId + '/' + dayOfWeek + '/' + eatingTime + '/check/real', uploadData);
+  }
+
   update(planId: number, dayOfWeek: DayOfWeek,
                         eatingTime: EatingTime, ingredientOld: string,
                         ingredientNew: string, count: number, comment: string): Observable<any> {
@@ -60,6 +73,20 @@ constructor(private http: HttpClient) { }
 
     // Исправьте запрос на POST и отправьте uploadData
     return this.http.post(PLAN_API + planId + '/' + dayOfWeek + '/' + eatingTime + '/update', uploadData);
+  }
+
+  updateReal(planId: number, dayOfWeek: DayOfWeek,
+                        eatingTime: EatingTime, ingredientOld: string,
+                        ingredientNew: string, count: number, comment: string, date: string): Observable<any> {
+    const uploadData = new FormData();
+    uploadData.append('ingredientOld', ingredientOld);
+    uploadData.append('ingredientNew', ingredientNew);
+    uploadData.append('count', count.toString()); // Перевести число в строку
+    uploadData.append('comment', comment);
+    uploadData.append('date', date);
+
+    // Исправьте запрос на POST и отправьте uploadData
+    return this.http.post(PLAN_API + planId + '/' + dayOfWeek + '/' + eatingTime + '/update/real', uploadData);
   }
 
   getTodayForCurrentUser(): Observable<any> {
