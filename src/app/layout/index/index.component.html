@@ -1,26 +1,5 @@
-<div class="container">
-  <!-- Кнопка для публикации плана -->
-  <button (click)="openPublishModal()">Опубликовать план</button>
+<div class="container" xmlns="http://www.w3.org/1999/html">
 
-  <!-- Модальное окно для публикации плана -->
-  <div *ngIf="showPublishModal" class="modal">
-    <div class="modal-content">
-      <span class="close" (click)="closeModal()">&times;</span>
-      <h2>Публикация плана</h2>
-      <form (submit)="publishPlan()">
-        <label for="userName">Имя пользователя:</label>
-        <input type="text" id="userName" [(ngModel)]="userName" name="userName" required>
-
-        <label for="week">Неделя:</label>
-        <input type="number" id="week" [(ngModel)]="week" name="week" required>
-
-        <label for="date">Дата:</label>
-        <input type="text" id="date" [(ngModel)]="date" name="date" placeholder="yyyy-mm-dd"
-               required>
-        <button type="submit">Опубликовать</button>
-      </form>
-    </div>
-  </div>
   <!-- Добавляем кнопку для создания нового плана -->
   <div>
     <input type="text" [(ngModel)]="newPlanName" placeholder="Название плана">
@@ -91,4 +70,49 @@
     </tr>
     </tbody>
   </table>
+
+  <!-- Кнопка для копирования плана -->
+  <button mat-flat-button color="primary" style="width: 100%;" (click)="openCopyModal()">Копировать
+    план
+  </button>
+
+  <!-- Модальное окно для копирования плана -->
+  <div *ngIf="showCopyModal" class="modal">
+    <div class="modal-content">
+      <span class="close" (click)="closeCopyModal()">×</span>
+      <h2>Копирование плана</h2>
+      <select [(ngModel)]="copyPlanId">
+        <option *ngFor="let plan of plans" [ngValue]="plan.planId">
+          {{ plan.name }}
+        </option>
+      </select>
+      <button (click)="copyPlan()">Подтвердить копирование</button>
+    </div>
+  </div>
+
+  <!-- Кнопка для публикации плана -->
+  <button mat-flat-button color="primary" style="width: 100%;" (click)="openPublishModal()">
+    Опубликовать план
+  </button>
+
+  <!-- Модальное окно для публикации плана -->
+  <div *ngIf="showPublishModal" class="modal">
+    <div class="modal-content">
+      <span class="close" (click)="closeModal()">&times;</span>
+      <h2>Публикация плана</h2>
+      <form (submit)="publishPlan()">
+        <label for="userName">Имя пользователя:</label>
+        <input type="text" id="userName" [(ngModel)]="userName" name="userName" required>
+
+        <label for="week">Неделя:</label>
+        <input type="number" id="week" [(ngModel)]="week" name="week" required>
+
+        <label for="date">Дата:</label>
+        <input type="text" id="date" [(ngModel)]="date" name="date" placeholder="yyyy-mm-dd"
+               required>
+        <button mat-flat-button color="primary" type="submit">Опубликовать</button>
+      </form>
+    </div>
+  </div>
+
 </div>

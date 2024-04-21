@@ -27,6 +27,8 @@ showPublishModal: boolean = false;
 userName: string;
 week: number;
 date: string;
+showCopyModal: boolean = false;
+copyPlanId: number;
 
 constructor(
   private ingredientService: IngredientService,
@@ -39,6 +41,34 @@ constructor(
     this.getIngredients();
     this.getPlans();
     this.initializeAmounts();
+  }
+  //Метод для открытия модального окна копирования:
+  openCopyModal(): void {
+    this.showCopyModal = true;
+  }
+
+  // Метод для закрытия модального окна копирования:
+  closeCopyModal(): void {
+    this.showCopyModal = false;
+  }
+
+
+  //Метод копирования плана:
+  copyPlan(): void {
+    if (!this.copyPlanId) {
+      alert("Выберите план для копирования.");
+      return;
+    }
+    this.planService.copy(this.selectedPlanId.toString(), this.copyPlanId.toString()).subscribe({
+      next: (response) => {
+        console.log("План успешно скопирован:", response);
+        this.showCopyModal = false;  // Закрытие модального окна после копирования
+        this.getPlans();  // Обновление списка планов
+      },
+      error: (error) => {
+        console.error("Ошибка при копировании плана:", error);
+      }
+    });
   }
 
   // Метод для открытия модального окна
@@ -116,11 +146,6 @@ constructor(
   }
 
   addIngredient(planId: number, day: DayOfWeek, meal: EatingTime, ingredient: any, count: number) {
-    console.log('planId:', planId);
-    console.log('day:', day);
-    console.log('meal:', meal);
-    console.log('ingredient:', ingredient);
-    console.log('count:', count);
     if (count > 0 && ingredient) {
       this.planService.addIngredient(planId, day, meal, ingredient, count).subscribe(
         response => {
@@ -138,11 +163,6 @@ constructor(
   }
 
   check(planId: number, day: DayOfWeek, meal: EatingTime, ingredient: any, count: number) {
-    console.log('planId:', planId);
-    console.log('day:', day);
-    console.log('meal:', meal);
-    console.log('ingredient:', ingredient);
-    console.log('count:', count);
       this.planService.check(planId, day, meal, ingredient, count).subscribe(
         response => {
           console.log('Ингредиент check:', response);
@@ -216,8 +236,6 @@ constructor(
     } else {
       this.historyService.last(planId, dayOfWeek, eatingTime, ingredientDay.ingredient.name).subscribe({
         next: (data) => {
-          console.log('data.countOld:', data.countOld);
-          console.log('data.ingredientOld.name:', data.ingredientOld.name);
           ingredientDay.countT = data.countOld
           ingredientDay.name = data.ingredientOld.name
           ingredientDay.comment = data.comment

@@ -99,6 +99,13 @@ constructor(private http: HttpClient) { }
     return this.http.post(PLAN_API + 'create', uploadData);
   }
 
+  copy(planId: string, copyPlanId: string): Observable<any> {
+    const uploadData = new FormData();
+    uploadData.append('planId', planId);
+    uploadData.append('copyPlanId', copyPlanId);
+    return this.http.post(PLAN_API + 'copy', uploadData);
+  }
+
   ready(planId: number, userName: string, week: number, date: string): Observable<any> {
     const uploadData = new FormData();
     uploadData.append('planId', planId.toString());
