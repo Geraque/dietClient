@@ -7,6 +7,7 @@ import {Day} from '../../models/Day';
 import {DayOfWeek} from '../../models/DayOfWeek';
 import {EatingTime} from '../../models/EatingTime';
 import {Plan} from '../../models/Plan';
+import {NotificationService}from '../../service/notification.service';
 
 @Component({
   selector: 'app-index',
@@ -34,7 +35,8 @@ constructor(
   private ingredientService: IngredientService,
   private planService: PlanService,
   private userService: UserService,
-  private historyService: HistoryService) {}
+  private historyService: HistoryService,
+  private notificationService: NotificationService) {}
 
   ngOnInit() {
     this.checkIfDietician();
@@ -61,6 +63,7 @@ constructor(
     }
     this.planService.copy(this.selectedPlanId.toString(), this.copyPlanId.toString()).subscribe({
       next: (response) => {
+        this.notificationService.showSnackBar('План успешно скопирован');
         console.log("План успешно скопирован:", response);
         this.showCopyModal = false;  // Закрытие модального окна после копирования
         this.getPlans();  // Обновление списка планов
@@ -85,6 +88,7 @@ constructor(
     if (this.userName && this.week && this.date) {
       this.planService.ready(this.selectedPlanId, this.userName, this.week, this.date).subscribe({
         next: (response) => {
+          this.notificationService.showSnackBar('План опубликован');
           console.log('План успешно опубликован:', response);
           this.closeModal();
         },
@@ -149,6 +153,7 @@ constructor(
     if (count > 0 && ingredient) {
       this.planService.addIngredient(planId, day, meal, ingredient, count).subscribe(
         response => {
+          this.notificationService.showSnackBar('Ингредиент добавлен');
           console.log('Ингредиент добавлен:', response);
           // Тут можно добавить логику обновления UI
           this.updateIngredientsForDayAndMeal(day, meal);
@@ -166,6 +171,7 @@ constructor(
     if (ingredient) {
       this.planService.deleteIngredient(planId, day, meal, ingredient).subscribe(
         response => {
+          this.notificationService.showSnackBar('Ингредиент удалён');
           console.log('Ингредиент удалён:', response);
           // Тут можно добавить логику обновления UI
           this.updateIngredientsForDayAndMeal(day, meal);
@@ -184,6 +190,7 @@ constructor(
       this.planService.check(planId, day, meal, ingredient, count).subscribe(
         response => {
           console.log('Ингредиент check:', response);
+          this.notificationService.showSnackBar('Ингредиент подтверждён');
           // Тут можно добавить логику обновления UI
           this.updateIngredientsForDayAndMeal(day, meal);
         },
@@ -235,6 +242,7 @@ constructor(
       if (count > 0 && ingredientNew) {
           this.planService.update(planId, dayOfWeek, eatingTime, ingredientOld.name, ingredientNew.name, count, comment).subscribe(
               response => {
+                  this.notificationService.showSnackBar('Ингредиент изменён');
                   console.log('Ингредиент обновлен:', response);
                   // Здесь можно обновить UI соответствующим образом
                   this.updateIngredientsForDayAndMeal(dayOfWeek, eatingTime);
@@ -275,6 +283,7 @@ constructor(
 
     this.planService.createPlan(this.newPlanName).subscribe({
       next: (plan) => {
+        this.notificationService.showSnackBar('План создан');
         console.log('План создан:', plan);
         this.getPlans(); // Обновляем список планов
         this.selectedPlanId = plan.planId; // Устанавливаем созданный план как выбранный

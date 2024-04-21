@@ -30,10 +30,9 @@ constructor(private http: HttpClient) { }
   deleteIngredient(planId: number, dayOfWeek: DayOfWeek,
                         eatingTime: EatingTime, ingredient: string): Observable<any> {
     const uploadData = new FormData();
-    uploadData.append('ingredient', ingredient);
 
     // Исправьте запрос на POST и отправьте uploadData
-    return this.http.post(PLAN_API + planId + '/' + dayOfWeek + '/' + eatingTime + '/delete', uploadData);
+    return this.http.delete(PLAN_API + planId + '/' + dayOfWeek + '/' + eatingTime + '/' + ingredient + '/delete');
   }
 
   addIngredientReal(planId: number, dayOfWeek: DayOfWeek,

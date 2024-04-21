@@ -38,7 +38,7 @@
                 </div>
           </span>
           <button color="accent" mat-button
-                  (click)="deleteIngredient(selectedPlanId, day, meal, selectedIngredient.value)">
+                  (click)="deleteIngredient(selectedPlanId, day, meal, ingredientDay.ingredient.name)">
             <mat-icon color="accent">clear</mat-icon>
           </button>
           <!-- Кнопка "Подтвердить" видна только если пользователь не является диетологом -->
