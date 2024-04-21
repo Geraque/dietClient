@@ -162,6 +162,24 @@ constructor(
     }
   }
 
+  deleteIngredient(planId: number, day: DayOfWeek, meal: EatingTime, ingredient: any) {
+    if (ingredient) {
+      this.planService.deleteIngredient(planId, day, meal, ingredient).subscribe(
+        response => {
+          console.log('Ингредиент удалён:', response);
+          // Тут можно добавить логику обновления UI
+          this.updateIngredientsForDayAndMeal(day, meal);
+        },
+        error => {
+          console.error('Ошибка при удалении ингредиента:', error);
+        }
+      );
+    } else {
+      console.error('Ингредиент не выбран');
+    }
+  }
+
+
   check(planId: number, day: DayOfWeek, meal: EatingTime, ingredient: any, count: number) {
       this.planService.check(planId, day, meal, ingredient, count).subscribe(
         response => {

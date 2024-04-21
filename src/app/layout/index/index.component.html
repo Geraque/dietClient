@@ -37,6 +37,10 @@
                   <div *ngIf="ingredientDay.comment">Комментарий: {{ ingredientDay.comment }}</div>
                 </div>
           </span>
+          <button color="accent" mat-button
+                  (click)="deleteIngredient(selectedPlanId, day, meal, selectedIngredient.value)">
+            <mat-icon color="accent">clear</mat-icon>
+          </button>
           <!-- Кнопка "Подтвердить" видна только если пользователь не является диетологом -->
           <div *ngIf="ingredientDay.checkIngredient !== true && ingredientDay.checkIngredient !== false">
             <button *ngIf="!isDietician" (click)="check(selectedPlanId, day, meal, ingredientDay.ingredient.name, ingredientDay.count)">Подтвердить</button>
@@ -108,7 +112,7 @@
         <input type="number" id="week" [(ngModel)]="week" name="week" required>
 
         <label for="date">Дата:</label>
-        <input type="text" id="date" [(ngModel)]="date" name="date" placeholder="yyyy-mm-dd"
+        <input type="text" id="date" [(ngModel)]="date" name="date" placeholder="dd.mm.yyyy"
                required>
         <button mat-flat-button color="primary" type="submit">Опубликовать</button>
       </form>

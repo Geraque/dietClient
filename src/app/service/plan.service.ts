@@ -27,6 +27,15 @@ constructor(private http: HttpClient) { }
     return this.http.post(PLAN_API + planId + '/' + dayOfWeek + '/' + eatingTime + '/ingredient', uploadData);
   }
 
+  deleteIngredient(planId: number, dayOfWeek: DayOfWeek,
+                        eatingTime: EatingTime, ingredient: string): Observable<any> {
+    const uploadData = new FormData();
+    uploadData.append('ingredient', ingredient);
+
+    // Исправьте запрос на POST и отправьте uploadData
+    return this.http.post(PLAN_API + planId + '/' + dayOfWeek + '/' + eatingTime + '/delete', uploadData);
+  }
+
   addIngredientReal(planId: number, dayOfWeek: DayOfWeek,
                         eatingTime: EatingTime, ingredient: string,
                         count: number, date: string): Observable<any> {
