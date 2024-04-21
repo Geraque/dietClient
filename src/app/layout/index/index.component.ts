@@ -23,6 +23,10 @@ export class IndexComponent implements OnInit {
   selectedPlanId: number;
   isDietician: boolean = false;
   newPlanName: string = '';
+showPublishModal: boolean = false;
+userName: string;
+week: number;
+date: string;
 
 constructor(
   private ingredientService: IngredientService,
@@ -35,6 +39,32 @@ constructor(
     this.getIngredients();
     this.getPlans();
     this.initializeAmounts();
+  }
+
+  // Метод для открытия модального окна
+  openPublishModal(): void {
+    this.showPublishModal = true;
+  }
+
+  // Метод для закрытия модального окна
+  closeModal(): void {
+    this.showPublishModal = false;
+  }
+
+  publishPlan(): void {
+    if (this.userName && this.week && this.date) {
+      this.planService.ready(this.selectedPlanId, this.userName, this.week, this.date).subscribe({
+        next: (response) => {
+          console.log('План успешно опубликован:', response);
+          this.closeModal();
+        },
+        error: (error) => {
+          console.error('Ошибка при публикации плана:', error);
+        }
+      });
+    } else {
+      alert("Пожалуйста, заполните все поля.");
+    }
   }
 
   checkIfDietician() {

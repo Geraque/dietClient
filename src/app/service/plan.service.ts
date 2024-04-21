@@ -99,4 +99,12 @@ constructor(private http: HttpClient) { }
     return this.http.post(PLAN_API + 'create', uploadData);
   }
 
+  ready(planId: number, userName: string, week: number, date: string): Observable<any> {
+    const uploadData = new FormData();
+    uploadData.append('planId', planId.toString());
+    uploadData.append('userName', userName);
+    uploadData.append('week', week.toString());
+    uploadData.append('date', date);
+    return this.http.post(PLAN_API + 'ready', uploadData);
+  }
 }

@@ -30,3 +30,29 @@ input[type="number"] {
     color: red;
 }
 
+.modal {
+    position: fixed; /* Фиксированное позиционирование относительно окна браузера */
+    top: 0;
+    left: 0;
+    width: 100%; /* Ширина на весь экран */
+    height: 100%; /* Высота на весь экран */
+    background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный черный фон */
+    display: flex;
+    justify-content: center; /* Центрирование контента по горизонтали */
+    align-items: center; /* Центрирование контента по вертикали */
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ddd;
+    width: 50%;
+    min-width: 300px;
+}
+
+.close {
+    float: right;
+    font-size: 28px;
+    cursor: pointer;
+}
+

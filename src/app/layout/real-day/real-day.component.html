@@ -1,7 +1,7 @@
 <div class="container">
   <select [(ngModel)]="selectedPlanId">
     <option *ngFor="let plan of plans" [ngValue]="plan.planId">
-      План №{{ plan.planId }}
+      {{ plan.name }}
     </option>
   </select>
   <div class="week-selector">
