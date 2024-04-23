@@ -1,0 +1,67 @@
+<div class="container" xmlns="http://www.w3.org/1999/html">
+  <!-- ingredient-list.component.html -->
+  <h2 style="text-align: center;">Список Ингредиентов</h2>
+  <!-- Модальное окно для публикации плана -->
+  <!-- Кнопка для публикации плана -->
+  <button mat-flat-button color="primary" style="width: 80%; left: 137px;" (click)="openPublishModal()">
+    Добавить ингредиент
+  </button>
+  <div *ngIf="showPublishModal" class="modal">
+    <div class="modal-content">
+      <span class="close" (click)="closeModal()">&times;</span>
+      <h2 class="modal-title">Добавление ингредиента</h2>
+      <form [formGroup]="publishForm">
+        <mat-form-field appearance="outline">
+          <mat-label>Название ингредиента</mat-label>
+          <input matInput formControlName="name">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Калории</mat-label>
+          <input matInput formControlName="calories">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Углеводы</mat-label>
+          <input matInput formControlName="carbohydrates">
+        </mat-form-field>
+
+
+        <mat-form-field appearance="outline">
+          <mat-label>Белки</mat-label>
+          <input matInput formControlName="proteins">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Жиры</mat-label>
+          <input matInput formControlName="fat">
+        </mat-form-field>
+        <button type="button" style="width: 20%; margin-right: 1rem;" [disabled]="publishForm.invalid" (click)="createIngredient()" mat-flat-button color="primary">
+          Добавить
+        </button>
+      </form>
+    </div>
+  </div>
+  <div class="table-container">
+    <table class="ingredient-table">
+      <thead>
+      <tr>
+        <th>Название</th>
+        <th>Белки</th>
+        <th>Жиры</th>
+        <th>Углеводы</th>
+        <th>Калории</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let ingredient of ingredients">
+        <td>{{ ingredient.name }}</td>
+        <td>{{ ingredient.proteins }}</td>
+        <td>{{ ingredient.fat }}</td>
+        <td>{{ ingredient.carbohydrates }}</td>
+        <td>{{ ingredient.calories }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

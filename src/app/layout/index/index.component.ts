@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {FormBuilder, FormGroup, Validators}from '@angular/forms';
 import { IngredientService } from '../../service/ingredient.service';
 import { PlanService } from '../../service/plan.service';
 import { UserService } from '../../service/user.service';
@@ -25,24 +26,25 @@ export class IndexComponent implements OnInit {
   isDietician: boolean = false;
   newPlanName: string = '';
 showPublishModal: boolean = false;
-userName: string;
-week: number;
-date: string;
 showCopyModal: boolean = false;
+showCreateModal: boolean = false;
 copyPlanId: number;
+public publishForm: FormGroup;
 
 constructor(
   private ingredientService: IngredientService,
   private planService: PlanService,
   private userService: UserService,
   private historyService: HistoryService,
-  private notificationService: NotificationService) {}
+  private notificationService: NotificationService,
+  private fb: FormBuilder) {}
 
   ngOnInit() {
     this.checkIfDietician();
     this.getIngredients();
     this.getPlans();
     this.initializeAmounts();
+    this.getIngredients();
   }
   //Метод для открытия модального окна копирования:
   openCopyModal(): void {
@@ -54,6 +56,29 @@ constructor(
     this.showCopyModal = false;
   }
 
+  createPublishForm(): FormGroup {
+    return this.fb.group({
+      userName: ['', Validators.compose([Validators.required])],
+      week: ['', Validators.compose([Validators.required])],
+      date: ['', Validators.compose([Validators.required])],
+    });
+  }
+
+  //Метод для открытия модального окна копирования:
+  openCreateModal(): void {
+    this.showCopyModal = true;
+  }
+
+  // Метод для закрытия модального окна копирования:
+  closeCreateModal(): void {
+    this.showCreateModal = false;
+  }
+
+  createCreateForm(): FormGroup {
+    return this.fb.group({
+      name: ['', Validators.compose([Validators.required])],
+    });
+  }
 
   //Метод копирования плана:
   copyPlan(): void {
@@ -77,6 +102,7 @@ constructor(
   // Метод для открытия модального окна
   openPublishModal(): void {
     this.showPublishModal = true;
+    this.publishForm = this.createPublishForm();
   }
 
   // Метод для закрытия модального окна
@@ -85,8 +111,9 @@ constructor(
   }
 
   publishPlan(): void {
-    if (this.userName && this.week && this.date) {
-      this.planService.ready(this.selectedPlanId, this.userName, this.week, this.date).subscribe({
+    if (this.publishForm.valid) {
+      const { userName, week, date} = this.publishForm.value;
+      this.planService.ready(this.selectedPlanId, userName, week, date).subscribe({
         next: (response) => {
           this.notificationService.showSnackBar('План опубликован');
           console.log('План успешно опубликован:', response);

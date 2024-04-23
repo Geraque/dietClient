@@ -103,18 +103,40 @@
   <div *ngIf="showPublishModal" class="modal">
     <div class="modal-content">
       <span class="close" (click)="closeModal()">&times;</span>
-      <h2>Публикация плана</h2>
-      <form (submit)="publishPlan()">
-        <label for="userName">Имя пользователя:</label>
-        <input type="text" id="userName" [(ngModel)]="userName" name="userName" required>
+      <h2 class="modal-title">Публикация плана</h2>
+      <form [formGroup]="publishForm">
+        <!--        <div class="form-group">-->
+        <!--          <label for="userName">Имя пользователя:</label>-->
+        <!--          <input type="text" id="userName" [(ngModel)]="userName" name="userName" required>-->
+        <!--        </div>-->
 
-        <label for="week">Неделя:</label>
-        <input type="number" id="week" [(ngModel)]="week" name="week" required>
+        <!--        <div class="form-group">-->
+        <!--          <label for="week">Неделя:</label>-->
+        <!--          <input type="number" id="week" [(ngModel)]="week" name="week" required>-->
+        <!--        </div>-->
 
-        <label for="date">Дата:</label>
-        <input type="text" id="date" [(ngModel)]="date" name="date" placeholder="dd.mm.yyyy"
-               required>
-        <button mat-flat-button color="primary" type="submit">Опубликовать</button>
+        <!--        <div class="form-group">-->
+        <!--          <label for="date">Дата:</label>-->
+        <!--          <input type="text" id="date" [(ngModel)]="date" name="date" placeholder="dd.mm.yyyy" required>-->
+        <!--        </div>-->
+        <mat-form-field appearance="outline">
+          <mat-label>Имя пользователя</mat-label>
+          <input matInput formControlName="userName">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Количество недель</mat-label>
+          <input matInput formControlName="week">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Дата</mat-label>
+          <input matInput formControlName="date">
+        </mat-form-field>
+
+        <button type="button" style="width: 20%; margin-right: 1rem;"
+                [disabled]="publishForm.invalid" (click)="publishPlan()" mat-flat-button
+                color="primary">
+          Опубликовать
+        </button>
       </form>
     </div>
   </div>

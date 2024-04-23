@@ -18,4 +18,18 @@ export class IngredientService {
   getIngredientById(id: number): Observable<any> {
     return this.http.get(INGREDIENT_API + id);
   }
+
+  create(calories: number, carbohydrates: number,
+                        fat: number, name: string,
+                        proteins: number): Observable<any> {
+    const uploadData = new FormData();
+    uploadData.append('calories', calories.toString());
+    uploadData.append('carbohydrates', carbohydrates.toString());
+    uploadData.append('fat', fat.toString());
+    uploadData.append('name', name);
+    uploadData.append('proteins', proteins.toString());
+
+    // Исправьте запрос на POST и отправьте uploadData
+    return this.http.post(INGREDIENT_API + 'create', uploadData);
+  }
 }

@@ -20,6 +20,7 @@ import { IndexComponent } from './layout/index/index.component';
 import { CalendarComponent } from './layout/calendar/calendar.component';
 import { DayComponent } from './layout/day/day.component';
 import { RealDayComponent } from './layout/real-day/real-day.component';
+import {IngredientsComponent}from './layout/ingredients/ingredients.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { RealDayComponent } from './layout/real-day/real-day.component';
     IndexComponent,
     CalendarComponent,
     DayComponent,
-    RealDayComponent
+RealDayComponent,
+IngredientsComponent
   ],
   imports: [
     BrowserModule,

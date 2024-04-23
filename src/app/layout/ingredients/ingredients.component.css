@@ -1,3 +1,36 @@
+/* styles.css */
+.table-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ingredient-table {
+  border-collapse: collapse;
+  width: 80%;
+  margin-top: 20px;
+}
+
+.ingredient-table th, .ingredient-table td {
+  border: 1px solid #ddd; /* Рамка вокруг ячеек */
+  padding: 8px 16px; /* Отступы внутри ячеек */
+}
+
+.ingredient-table th {
+  background-color: #f2f2f2;
+  text-align: left;
+}
+
+.ingredient-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.ingredient-table tr:hover {
+  background-color: #e8e8e8;
+}
+
+
 .container {
     width: 90%;
     margin: auto;

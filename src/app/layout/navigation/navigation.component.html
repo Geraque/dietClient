@@ -3,12 +3,12 @@
 
   <div class="spacer"></div>
 
-  <form class="search-form" (submit)="onSearch($event)">
-    <input type="text" placeholder="Search by username" [(ngModel)]="searchTerm" name="searchTerm">
-    <button type="submit" mat-icon-button>
-      <mat-icon>search</mat-icon>
-    </button>
-  </form>
+  <!--  <form class="search-form" (submit)="onSearch($event)">-->
+  <!--    <input type="text" placeholder="Search by username" [(ngModel)]="searchTerm" name="searchTerm">-->
+  <!--    <button type="submit" mat-icon-button>-->
+  <!--      <mat-icon>search</mat-icon>-->
+  <!--    </button>-->
+  <!--  </form>-->
 
   <button *ngIf="!isLoggedIn" matTooltip="Login" routerLink="/login" mat-icon-button class="example-icon favorite-icon" color="black">
     <mat-icon>login</mat-icon>
