@@ -30,6 +30,7 @@ showCopyModal: boolean = false;
 showCreateModal: boolean = false;
 copyPlanId: number;
 public publishForm: FormGroup;
+public createForm: FormGroup;
 
 constructor(
   private ingredientService: IngredientService,
@@ -66,7 +67,8 @@ constructor(
 
   //Метод для открытия модального окна копирования:
   openCreateModal(): void {
-    this.showCopyModal = true;
+    this.showCreateModal = true;
+    this.createForm = this.createCreateForm();
   }
 
   // Метод для закрытия модального окна копирования:
@@ -78,6 +80,26 @@ constructor(
     return this.fb.group({
       name: ['', Validators.compose([Validators.required])],
     });
+  }
+
+  // Добавляем функцию для создания нового плана
+  createPlan() {
+    if (this.createForm.valid) {
+      const { name} = this.createForm.value;
+      this.planService.createPlan(name).subscribe({
+        next: (plan) => {
+          this.notificationService.showSnackBar('План создан');
+          console.log('План создан:', plan);
+          this.getPlans(); // Обновляем список планов
+          this.selectedPlanId = plan.planId; // Устанавливаем созданный план как выбранный
+        },
+        error: (error) => {
+          console.error('Ошибка при создании плана:', error);
+        }
+      });
+    }
+
+
   }
 
   //Метод копирования плана:
@@ -299,26 +321,6 @@ constructor(
         }
       });
     }
-  }
-
-  // Добавляем функцию для создания нового плана
-  createPlan() {
-    if (!this.newPlanName.trim()) {
-      console.error('Название плана не может быть пустым.');
-      return;
-    }
-
-    this.planService.createPlan(this.newPlanName).subscribe({
-      next: (plan) => {
-        this.notificationService.showSnackBar('План создан');
-        console.log('План создан:', plan);
-        this.getPlans(); // Обновляем список планов
-        this.selectedPlanId = plan.planId; // Устанавливаем созданный план как выбранный
-      },
-      error: (error) => {
-        console.error('Ошибка при создании плана:', error);
-      }
-    });
   }
 
   translateEnglishToRussianDay(englishDay: string): string {
