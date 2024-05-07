@@ -11,12 +11,7 @@
       {{ plan.name }}
     </option>
   </select>
-  <div style="display: flex; justify-content: space-between;">
-    <!--  &lt;!&ndash; Добавляем кнопку для создания нового плана &ndash;&gt;-->
-    <!--  <div>-->
-    <!--    <input type="text" [(ngModel)]="newPlanName" placeholder="Название плана">-->
-    <!--    <button (click)="createPlan()">Создать план</button>-->
-    <!--  </div>-->
+  <div style="display: flex; justify-content: space-between;" *ngIf="isDietician === true">
     <button mat-flat-button color="primary" style="width: 33%;" (click)="openCreateModal()">Создать
       план
     </button>
@@ -26,12 +21,12 @@
         <span class="close" (click)="closeCreateModal()">&times;</span>
         <h2 class="modal-title">Создание плана</h2>
         <form [formGroup]="createForm">
-          <mat-form-field appearance="outline">
+          <mat-form-field appearance="outline" class="small-input">
             <mat-label>Название</mat-label>
             <input matInput formControlName="name">
           </mat-form-field>
 
-          <button type="button" style="width: 20%; margin-right: 1rem;"
+          <button type="button" style="width: 20%; margin-right: 1rem; margin-left: 10px; "
                   [disabled]="createForm.invalid" (click)="createPlan()" mat-flat-button
                   color="primary">
             Создать
@@ -42,8 +37,7 @@
 
     <!-- Кнопка для копирования плана -->
     <button mat-flat-button color="primary" style="width: 33%;" (click)="openCopyModal()">
-      Копировать
-      план
+      Копировать план
     </button>
     <!-- Модальное окно для копирования плана -->
     <div *ngIf="showCopyModal" class="modal">
@@ -55,7 +49,9 @@
             {{ plan.name }}
           </option>
         </select>
-        <button (click)="copyPlan()">Подтвердить копирование</button>
+        <button mat-flat-button color="primary" type="button" class="small-button"
+                (click)="copyPlan()">Подтвердить копирование
+        </button>
       </div>
     </div>
 
@@ -69,20 +65,6 @@
         <span class="close" (click)="closeModal()">&times;</span>
         <h2 class="modal-title">Публикация плана</h2>
         <form [formGroup]="publishForm">
-          <!--        <div class="form-group">-->
-          <!--          <label for="userName">Имя пользователя:</label>-->
-          <!--          <input type="text" id="userName" [(ngModel)]="userName" name="userName" required>-->
-          <!--        </div>-->
-
-          <!--        <div class="form-group">-->
-          <!--          <label for="week">Неделя:</label>-->
-          <!--          <input type="number" id="week" [(ngModel)]="week" name="week" required>-->
-          <!--        </div>-->
-
-          <!--        <div class="form-group">-->
-          <!--          <label for="date">Дата:</label>-->
-          <!--          <input type="text" id="date" [(ngModel)]="date" name="date" placeholder="dd.mm.yyyy" required>-->
-          <!--        </div>-->
           <mat-form-field appearance="outline">
             <mat-label>Имя пользователя</mat-label>
             <input matInput formControlName="userName">
@@ -141,11 +123,16 @@
           <!-- Кнопка "Подтвердить" видна только если пользователь не является диетологом -->
           <div
               *ngIf="ingredientDay.checkIngredient !== true && ingredientDay.checkIngredient !== false">
-            <button *ngIf="!isDietician"
+            <button mat-flat-button color="primary"
+                    style="width: 30%; margin-left: 10px; font-size: 11px;" *ngIf="!isDietician"
                     (click)="check(selectedPlanId, day, meal, ingredientDay.ingredient.name, ingredientDay.count)">
               Подтвердить
             </button>
-            <button *ngIf="!isDietician" (click)="enableEdit(ingredientDay)">Изменить</button>
+
+            <button mat-flat-button color="primary"
+                    style="width: 30%; margin-left: 10px; font-size: 11px;" *ngIf="!isDietician"
+                    (click)="enableEdit(ingredientDay)">Изменить
+            </button>
           </div>
           <!-- Поля для редактирования, появляются в режиме редактирования -->
           <div *ngIf="ingredientDay.editing">
@@ -156,7 +143,8 @@
             </select>
             <input type="number" [(ngModel)]="ingredientDay.count" placeholder="Количество">
             <input type="text" [(ngModel)]="ingredientDay.comment" placeholder="Комментарий">
-            <button (click)="updateIngredient(selectedPlanId, day, meal, ingredientDay.ingredient,
+            <button mat-flat-button color="primary"
+                    style="width: 30%; margin-left: 10px; font-size: 11px;" (click)="updateIngredient(selectedPlanId, day, meal, ingredientDay.ingredient,
             ingredientDay.selectedIngredient || ingredientDay.ingredient, ingredientDay.count, ingredientDay.comment)">
               Сохранить изменения
             </button>

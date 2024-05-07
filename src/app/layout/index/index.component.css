@@ -76,3 +76,41 @@ input[type="number"] {
   text-align: left; /* Выравнивание текста слева */
 }
 
+.small-input {
+    width: 150px; /* Измените значение ширины на желаемое */
+}
+
+.small-input .mat-form-field-wrapper {
+    height: 10px; /* Измените на требуемую высоту */
+}
+
+
+.small-input {
+    min-width: 100px;
+    max-width: 200px;
+    min-height: 10px;
+    max-height: 10px;
+}
+
+.modal-content {
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  top: 10px;      /* Отступ сверху */
+  right: 10px;    /* Отступ справа */
+  cursor: pointer;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.small-button {
+    padding: 5px 10px; /* Уменьшенные поля */
+    font-size: 14px; /* Меньший размер шрифта */
+
+}
+
+.form-control {
+    margin-bottom: 20px; /* Расстояние снизу */
+}
