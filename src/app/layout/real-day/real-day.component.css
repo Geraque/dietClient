@@ -30,3 +30,6 @@ input[type="number"] {
     color: red;
 }
 
+.form-control {
+    margin-bottom: 20px; /* Расстояние снизу */
+}

@@ -114,3 +114,13 @@ input[type="number"] {
 .form-control {
     margin-bottom: 20px; /* Расстояние снизу */
 }
+
+.centered-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    font-size: 24px; /* Размер шрифта */
+    color: #333; /* Цвет текста */
+    padding-top: 24%; /* Отступ сверху */
+}

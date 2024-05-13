@@ -47,9 +47,9 @@ constructor(
       confirmPassword: this.registerForm.value.confirmPassword,
     }).subscribe(data => {
       console.log(data);
-      this.notificationService.showSnackBar('Successfully Registered!');
+      this.notificationService.showSnackBar('Регистрация прошла успешно!');
     }, error => {
-      this.notificationService.showSnackBar('Something went wrong during registration');
+      this.notificationService.showSnackBar('Данный адрес электронный почты уже используется');
     });
   }
 

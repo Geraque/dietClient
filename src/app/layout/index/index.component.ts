@@ -142,6 +142,7 @@ constructor(
           this.closeModal();
         },
         error: (error) => {
+          this.notificationService.showSnackBar('Введите валидные данные');
           console.error('Ошибка при публикации плана:', error);
         }
       });
