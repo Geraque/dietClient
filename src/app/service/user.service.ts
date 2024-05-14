@@ -38,4 +38,8 @@ constructor(private http: HttpClient) { }
   isDiet():Observable<any> {
     return this.http.post(USER_API +'isDiet',null);
   }
+
+  getUsers(): Observable<any> {
+    return this.http.get(USER_API + 'clients');
+  }
 }

@@ -8,6 +8,7 @@ import {Day} from '../../models/Day';
 import {DayOfWeek} from '../../models/DayOfWeek';
 import {EatingTime} from '../../models/EatingTime';
 import {Plan} from '../../models/Plan';
+import {User}from '../../models/User';
 import {NotificationService}from '../../service/notification.service';
 
 @Component({
@@ -22,13 +23,16 @@ export class IndexComponent implements OnInit {
   selectedAmount = {};
   planId: number;
   plans: Plan[];
+users: User[];
   selectedPlanId: number;
+  selectedUserId: number;
   isDietician: boolean = false;
   newPlanName: string = '';
 showPublishModal: boolean = false;
 showCopyModal: boolean = false;
 showCreateModal: boolean = false;
 copyPlanId: number;
+publishUserId: number;
 public publishForm: FormGroup;
 public createForm: FormGroup;
 
@@ -44,6 +48,7 @@ constructor(
     this.checkIfDietician();
     this.getIngredients();
     this.getPlans();
+    this.getUsers();
     this.initializeAmounts();
     this.getIngredients();
   }
@@ -182,6 +187,20 @@ constructor(
         // Установим selectedPlanId для первого плана в массиве по умолчанию, если планы существуют
         if (this.plans && this.plans.length > 0) {
           this.selectedPlanId = this.plans[0].planId;
+        }
+      },
+      error => {
+        console.error(error);
+      }
+    );
+  }
+
+  getUsers() {
+    this.userService.getUsers().subscribe(
+      usersData => {
+        this.users = usersData;
+        if (this.users && this.users.length > 0) {
+          this.selectedUserId = this.users[0].userId;
         }
       },
       error => {
