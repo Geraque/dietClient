@@ -119,7 +119,7 @@
                   <div *ngIf="ingredientDay.comment">Комментарий: {{ ingredientDay.comment }}</div>
                 </div>
           </span>
-          <button color="accent" mat-button
+          <button *ngIf="isDietician" color="accent" mat-button
                   (click)="deleteIngredient(selectedPlanId, day, meal, ingredientDay.ingredient.name)">
             <mat-icon color="accent">clear</mat-icon>
           </button>

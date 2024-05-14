@@ -44,13 +44,10 @@ export class IngredientService {
     uploadData.append('proteins', proteins.toString());
 
     // Исправьте запрос на POST и отправьте uploadData
-    return this.http.post(INGREDIENT_API + 'create', uploadData);
+    return this.http.post(INGREDIENT_API + 'change', uploadData);
   }
 
   delete(name: string): Observable<any> {
-    const uploadData = new FormData();
-
-    // Исправьте запрос на POST и отправьте uploadData
-    return this.http.post(INGREDIENT_API + 'delete', uploadData);
+    return this.http.delete(INGREDIENT_API + name + '/delete');
   }
 }

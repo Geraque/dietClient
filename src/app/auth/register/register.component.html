@@ -45,6 +45,11 @@
       </mat-form-field>
     </div>
 
+    <!-- Add mat-checkbox for isAdmin -->
+    <div class="justify-content-center">
+      <mat-checkbox formControlName="isAdmin">Зарегистрироваться как диетолог</mat-checkbox>
+    </div>
+
     <button style="width: 12rem" [disabled]="registerForm.invalid" (click)="submit()"
             mat-flat-button color="primary">
       Зарегистрироваться

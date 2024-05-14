@@ -121,13 +121,13 @@ constructor(private ingredientService: IngredientService,
       const { calories, carbohydrates, fat, name, proteins } = this.changeForm.value;
       this.ingredientService.change(calories, carbohydrates, fat, name, proteins).subscribe({
         next: (response) => {
-          this.notificationService.showSnackBar('Ингредиент добавлен');
-          console.log('Ингредиент успешно добавлен:', response);
+          this.notificationService.showSnackBar('Ингредиент изменён');
+          console.log('Ингредиент успешно изменён:', response);
           this.closeModal();
           this.getIngredients(); // обновить список ингредиентов
         },
         error: (error) => {
-          console.error('Ошибка при добавлении ингредиента:', error);
+          console.error('Ошибка при изменении ингредиента:', error);
         }
       });
     } else {
