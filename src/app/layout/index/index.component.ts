@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators}from '@angular/forms';
+import {FormBuilder, FormGroup, FormControl, Validators}from '@angular/forms';
 import { IngredientService } from '../../service/ingredient.service';
 import { PlanService } from '../../service/plan.service';
 import { UserService } from '../../service/user.service';
@@ -23,7 +23,7 @@ export class IndexComponent implements OnInit {
   selectedAmount = {};
   planId: number;
   plans: Plan[];
-users: User[];
+  users: User[];
   selectedPlanId: number;
   selectedUserId: number;
   isDietician: boolean = false;
@@ -31,10 +31,16 @@ users: User[];
 showPublishModal: boolean = false;
 showCopyModal: boolean = false;
 showCreateModal: boolean = false;
+showEditModal: boolean = false;
 copyPlanId: number;
 publishUserId: number;
 public publishForm: FormGroup;
 public createForm: FormGroup;
+public editForm: FormGroup;
+
+editDay: DayOfWeek;
+editEatingTime: EatingTime;
+editIngredient: any;
 
 constructor(
   private ingredientService: IngredientService,
@@ -68,6 +74,48 @@ constructor(
       week: ['', Validators.compose([Validators.required])],
       date: ['', Validators.compose([Validators.required])],
     });
+  }
+
+  openEditModal(dayOfWeek: DayOfWeek, eatingTime: EatingTime, ingredientOld: any): void {
+    this.showEditModal = true;
+    this.editForm = this.createEditForm();
+    this.editDay = dayOfWeek;
+    this.editEatingTime = eatingTime;
+    this.editIngredient = ingredientOld;
+  }
+
+  // Метод для закрытия модального окна копирования:
+  closeEditModal(): void {
+    this.showEditModal = false;
+  }
+
+  createEditForm(): FormGroup {
+    return new FormGroup({
+      ingredient: new FormControl('', Validators.required),
+      count: new FormControl(1, [Validators.required, Validators.min(0)]),
+      comment: new FormControl('')
+    });
+  }
+
+  updateIngredient() {
+    if (this.editForm.valid) {
+      const { ingredient, count, comment} = this.editForm.value;
+      if (count > 0 && ingredient) {
+          this.planService.update(this.selectedPlanId, this.editDay, this.editEatingTime, this.editIngredient.ingredient.name, ingredient, count, comment).subscribe(
+              response => {
+                  this.notificationService.showSnackBar('Ингредиент изменён');
+                  console.log('Ингредиент обновлен:', response);
+                  // Здесь можно обновить UI соответствующим образом
+                  this.updateIngredientsForDayAndMeal(this.editDay, this.editEatingTime);
+              },
+              error => {
+                  console.error('Ошибка при обновлении ингредиента:', error);
+              }
+          );
+      } else {
+          console.error('Ингредиент не выбран или количество указано не верно.');
+      }
+    }
   }
 
   //Метод для открытия модального окна копирования:
@@ -168,16 +216,16 @@ constructor(
     });
   }
 
-    getIngredients() {
-        this.ingredientService.getAllRecipes().subscribe(
-            data => {
-                this.ingredients = data;
-            },
-            error => {
-                console.error(error);
-            }
-        );
-    }
+  getIngredients() {
+      this.ingredientService.getAllRecipes().subscribe(
+          data => {
+              this.ingredients = data;
+          },
+          error => {
+              console.error(error);
+          }
+      );
+  }
 
   getPlans() {
     this.planService.getPlansForCurrentUser().subscribe(
@@ -307,23 +355,6 @@ constructor(
       ingredientDay.selectedIngredient = ingredientDay.ingredient;
   }
 
-  updateIngredient(planId: number, dayOfWeek: DayOfWeek, eatingTime: EatingTime, ingredientOld: any, ingredientNew: any, count: number, comment: string) {
-      if (count > 0 && ingredientNew) {
-          this.planService.update(planId, dayOfWeek, eatingTime, ingredientOld.name, ingredientNew.name, count, comment).subscribe(
-              response => {
-                  this.notificationService.showSnackBar('Ингредиент изменён');
-                  console.log('Ингредиент обновлен:', response);
-                  // Здесь можно обновить UI соответствующим образом
-                  this.updateIngredientsForDayAndMeal(dayOfWeek, eatingTime);
-              },
-              error => {
-                  console.error('Ошибка при обновлении ингредиента:', error);
-              }
-          );
-      } else {
-          console.error('Ингредиент не выбран или количество указано не верно.');
-      }
-  }
 
     toggleIngredientDetails(planId: number, dayOfWeek: DayOfWeek, eatingTime: EatingTime, ingredientDay: any) {
     if (ingredientDay.showDetails) {
