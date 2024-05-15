@@ -68,26 +68,26 @@
         <span class="close" (click)="closeModal()">&times;</span>
         <h2 class="modal-title">Публикация плана</h2>
         <form [formGroup]="publishForm">
-          <mat-form-field appearance="outline">
-            <mat-label>Имя пользователя</mat-label>
-            <input matInput formControlName="userName">
-          </mat-form-field>
-          <!--          <mat-form-field appearance="outline" class="custom-dropdown-menu">-->
-          <!--            <mat-label>Имя пользователя</mat-label>-->
-          <!--            <mat-select formControlName="userName">-->
-          <!--              <mat-option *ngFor="let user of users" [value]="user.username">{{ user.username }}</mat-option>-->
-          <!--            </mat-select>-->
-          <!--          </mat-form-field>-->
-          <mat-form-field appearance="outline">
-            <mat-label>Количество недель</mat-label>
-            <input matInput formControlName="week">
-          </mat-form-field>
-          <mat-form-field appearance="outline">
-            <mat-label>Дата</mat-label>
-            <input matInput formControlName="date">
-          </mat-form-field>
-
-          <button type="button" style="width: 20%; margin-right: 1rem;"
+          <div class="input-group">
+            <label for="userNameSelect">Имя пользователя</label>
+            <select id="userNameSelect" formControlName="userName" class="form-control"
+                    style="width: 10%;">
+              <option *ngFor="let user of users" [value]="user.username">{{ user.username }}
+              </option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label for="week" style="margin-bottom: 5px;">Количество недель</label>
+            <input id="week" type="number" value="1" min="0" formControlName="week"
+                   class="form-control" style="width: 10%; margin-bottom: 5px;">
+          </div>
+          <div class="input-group">
+            <label for="date">Дата начала плана</label>
+            <input id="date" type="date" formControlName="date" class="form-control"
+                   style="width: 10%;">
+          </div>
+          <button type="button"
+                  style="width: 20%; margin-right: 1rem; margin-top: 1rem; left: 12px;"
                   [disabled]="publishForm.invalid" (click)="publishPlan()" mat-flat-button
                   color="primary">
             Опубликовать
