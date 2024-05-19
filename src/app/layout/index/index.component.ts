@@ -235,6 +235,8 @@ constructor(
         // Установим selectedPlanId для первого плана в массиве по умолчанию, если планы существуют
         if (this.plans && this.plans.length > 0) {
           this.selectedPlanId = this.plans[0].planId;
+        } else {
+          this.selectedPlanId = null;
         }
       },
       error => {

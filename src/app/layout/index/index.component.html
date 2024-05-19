@@ -6,219 +6,222 @@
         rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
         crossorigin="anonymous">
-  <!--  <div class="centered-message">-->
-  <!--    У вас нет планов питания-->
-  <!--  </div>-->
-  <select [(ngModel)]="selectedPlanId" class="form-control">
-    <option *ngFor="let plan of plans" [ngValue]="plan.planId">
-      {{ plan.name }}
-    </option>
-  </select>
-  <div style="display: flex; justify-content: space-between;" *ngIf="isDietician === true">
-    <button mat-flat-button color="primary" style="width: 33%;" (click)="openCreateModal()">Создать
-      план
-    </button>
-    <!-- Модальное окно для публикации плана -->
-    <div *ngIf="showCreateModal" class="modal">
-      <div class="modal-content">
-        <span class="close" (click)="closeCreateModal()">&times;</span>
-        <h2 class="modal-title">Создание плана</h2>
-        <form [formGroup]="createForm">
-          <mat-form-field appearance="outline" class="small-input">
-            <mat-label>Название</mat-label>
-            <input matInput formControlName="name">
-          </mat-form-field>
-
-          <button type="button" style="width: 20%; margin-right: 1rem; margin-left: 10px; "
-                  [disabled]="createForm.invalid" (click)="createPlan()" mat-flat-button
-                  color="primary">
-            Создать
-          </button>
-        </form>
-      </div>
-    </div>
-
-    <!-- Кнопка для копирования плана -->
-    <button mat-flat-button color="primary" style="width: 33%;" (click)="openCopyModal()">
-      Копировать план
-    </button>
-    <!-- Модальное окно для копирования плана -->
-    <div *ngIf="showCopyModal" class="modal">
-      <div class="modal-content">
-        <span class="close" (click)="closeCopyModal()">×</span>
-        <h2>Копирование плана</h2>
-        <select [(ngModel)]="copyPlanId" class="form-control">
-          <option *ngFor="let plan of plans" [ngValue]="plan.planId">
-            {{ plan.name }}
-          </option>
-        </select>
-        <button mat-flat-button color="primary" type="button" class="small-button"
-                (click)="copyPlan()">Подтвердить копирование
-        </button>
-      </div>
-    </div>
-
-    <!-- Кнопка для публикации плана -->
-    <button mat-flat-button color="primary" style="width: 33%;" (click)="openPublishModal()">
-      Опубликовать план
-    </button>
-    <!-- Модальное окно для публикации плана -->
-    <div *ngIf="showPublishModal" class="modal">
-      <div class="modal-content">
-        <span class="close" (click)="closeModal()">&times;</span>
-        <h2 class="modal-title">Публикация плана</h2>
-        <form [formGroup]="publishForm">
-          <div class="input-group">
-            <label for="userNameSelect">Имя пользователя</label>
-            <select id="userNameSelect" formControlName="userName" class="form-control"
-                    style="width: 10%;">
-              <option *ngFor="let user of users" [value]="user.username">{{ user.username }}
-              </option>
-            </select>
-          </div>
-          <div class="input-group">
-            <label for="week" style="margin-bottom: 5px;">Количество недель</label>
-            <input id="week" type="number" value="1" min="0" formControlName="week"
-                   class="form-control" style="width: 10%; margin-bottom: 5px;">
-          </div>
-          <div class="input-group">
-            <label for="date">Дата начала плана</label>
-            <input id="date" type="date" formControlName="date" class="form-control"
-                   style="width: 10%;">
-          </div>
-          <button type="button"
-                  style="width: 20%; margin-right: 1rem; margin-top: 1rem; left: 12px;"
-                  [disabled]="publishForm.invalid" (click)="publishPlan()" mat-flat-button
-                  color="primary">
-            Опубликовать
-          </button>
-        </form>
-      </div>
-    </div>
-
+  <div *ngIf="selectedPlanId===null" class="centered-message">
+    У вас нет планов питания
   </div>
+  <div *ngIf="selectedPlanId!==null">
+    <select [(ngModel)]="selectedPlanId" class="form-control">
+      <option *ngFor="let plan of plans" [ngValue]="plan.planId">
+        {{ plan.name }}
+      </option>
+    </select>
+    <div style="display: flex; justify-content: space-between;" *ngIf="isDietician === true">
+      <button mat-flat-button color="primary" style="width: 33%;" (click)="openCreateModal()">
+        Создать
+        план
+      </button>
+      <!-- Модальное окно для публикации плана -->
+      <div *ngIf="showCreateModal" class="modal">
+        <div class="modal-content">
+          <span class="close" (click)="closeCreateModal()">&times;</span>
+          <h2 class="modal-title">Создание плана</h2>
+          <form [formGroup]="createForm">
+            <mat-form-field appearance="outline" class="small-input">
+              <mat-label>Название</mat-label>
+              <input matInput formControlName="name">
+            </mat-form-field>
 
-  <table>
-    <thead>
-    <tr>
-      <th>День недели</th>
-      <th>Завтрак</th>
-      <th>Обед</th>
-      <th>Ужин</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let day of daysOfWeek">
-      <td>{{ translateEnglishToRussianDay(day) }}</td>
-      <td *ngFor="let meal of eatingTimes">
-        <div *ngFor="let ingredientDay of getIngredientsForDayAndMeal(day, meal)"
-             [ngClass]="{'text-green': isDietician && ingredientDay.checkIngredient === true,
-                 'text-red': isDietician && ingredientDay.checkIngredient === false}">
-          {{ ingredientDay.count }} x {{ ingredientDay.ingredient.name }}
-          <!-- Иконка стрелочки и дополнительная информация -->
-          <span *ngIf="isDietician && ingredientDay.checkIngredient === false"
-                (click)="toggleIngredientDetails(selectedPlanId, day, meal, ingredientDay)">
-                &#x25BC;
-                <div *ngIf="ingredientDay.showDetails">
-                  <!-- Дополнительная информация отобразится здесь -->
-                  {{ ingredientDay.name }}: {{ ingredientDay.countT }}
-                  <div *ngIf="ingredientDay.comment">Комментарий: {{ ingredientDay.comment }}</div>
-                </div>
-          </span>
-          <button *ngIf="isDietician" color="accent" mat-button
-                  (click)="deleteIngredient(selectedPlanId, day, meal, ingredientDay.ingredient.name)">
-            <mat-icon color="accent">clear</mat-icon>
-          </button>
-          <!-- Кнопка "Подтвердить" видна только если пользователь не является диетологом -->
-          <div
-              *ngIf="ingredientDay.checkIngredient !== true && ingredientDay.checkIngredient !== false">
-            <button mat-flat-button color="primary"
-                    style="width: 30%; margin-left: 10px; font-size: 11px;" *ngIf="!isDietician"
-                    (click)="check(selectedPlanId, day, meal, ingredientDay.ingredient.name, ingredientDay.count)">
-              Подтвердить
+            <button type="button" style="width: 20%; margin-right: 1rem; margin-left: 10px; "
+                    [disabled]="createForm.invalid" (click)="createPlan()" mat-flat-button
+                    color="primary">
+              Создать
             </button>
-
-            <!--            <button mat-flat-button color="primary"-->
-            <!--                    style="width: 30%; margin-left: 10px; font-size: 11px;" *ngIf="!isDietician"-->
-            <!--                    (click)="enableEdit(ingredientDay)">Изменить-->
-            <!--            </button>-->
-
-            <button mat-flat-button color="primary"
-                    style="width: 30%; margin-left: 10px; font-size: 11px;" *ngIf="!isDietician"
-                    (click)="openEditModal(day, meal, ingredientDay)">Изменить
-            </button>
-          </div>
-
-          <div *ngIf="showEditModal" class="modal">
-            <div class="modal-content">
-              <span class="close" (click)="closeEditModal()">&times;</span>
-              <h2 class="modal-title">Изменение ингредиента</h2>
-              <form [formGroup]="editForm">
-                <div class="input-group custom-input-group">
-                  <label for="ingredient">Ингредиент</label>
-                  <select id="ingredient" formControlName="ingredient" class="form-control"
-                          style="width: 10%;">
-                    <option *ngFor="let ingredient of ingredients" [value]="ingredient.name">{{
-                      ingredient.name }}
-                    </option>
-                  </select>
-                </div>
-                <div class="input-group custom-input-group">
-                  <label for="count" style="margin-bottom: 5px;">Количество</label>
-                  <input id="count" type="number" value="1" min="0" formControlName="count"
-                         class="form-control" style="width: 10%; margin-bottom: 5px;">
-                </div>
-                <div class="input-group custom-input-group">
-                  <label for="comment" style="margin-bottom: 5px;">Комментарий</label>
-                  <input id="comment" type="text" formControlName="comment"
-                         class="form-control" style="width: 10%; margin-bottom: 5px;">
-                </div>
-                <button type="button"
-                        style="width: 20%; margin-right: 1rem; margin-top: 1rem; left: 12px;"
-                        [disabled]="editForm.invalid" (click)="updateIngredient()" mat-flat-button
-                        color="primary">
-                  Изменить
-                </button>
-              </form>
-            </div>
-          </div>
-
-          <!-- Поля для редактирования, появляются в режиме редактирования -->
-          <!--          <div *ngIf="ingredientDay.editing">-->
-          <!--            <select [(ngModel)]="ingredientDay.selectedIngredient" class="form-control">-->
-          <!--              <option *ngFor="let ingredient of ingredients" [ngValue]="ingredient">-->
-          <!--                {{ ingredient.name }}-->
-          <!--              </option>-->
-          <!--            </select>-->
-          <!--            <input type="number" [(ngModel)]="ingredientDay.count" placeholder="Количество">-->
-          <!--            <input type="text" [(ngModel)]="ingredientDay.comment" placeholder="Комментарий">-->
-          <!--            <button mat-flat-button color="primary"-->
-          <!--                    style="width: 30%; margin-left: 10px; font-size: 11px;" (click)="updateIngredient(selectedPlanId, day, meal, ingredientDay.ingredient,-->
-          <!--            ingredientDay.selectedIngredient || ingredientDay.ingredient, ingredientDay.count, ingredientDay.comment)">-->
-          <!--              Сохранить изменения-->
-          <!--            </button>-->
-          <!--            <button (click)="ingredientDay.editing = false">Отмена</button>-->
-          <!--          </div>-->
+          </form>
         </div>
-        <!-- Элементы для добавления ингредиентов видны только если пользователь является диетологом -->
-        <ng-container *ngIf="isDietician">
-          <select #selectedIngredient (change)="onSelectIngredient($event, day, meal)"
-                  class="form-control">
-            <option *ngFor="let ingredient of ingredients" [ngValue]="ingredient">
-              {{ ingredient.name }}
+      </div>
+
+      <!-- Кнопка для копирования плана -->
+      <button mat-flat-button color="primary" style="width: 33%;" (click)="openCopyModal()">
+        Копировать план
+      </button>
+      <!-- Модальное окно для копирования плана -->
+      <div *ngIf="showCopyModal" class="modal">
+        <div class="modal-content">
+          <span class="close" (click)="closeCopyModal()">×</span>
+          <h2>Копирование плана</h2>
+          <select [(ngModel)]="copyPlanId" class="form-control">
+            <option *ngFor="let plan of plans" [ngValue]="plan.planId">
+              {{ plan.name }}
             </option>
           </select>
-          <input type="number" value="1" min="0" [(ngModel)]="selectedAmount[day][meal]"
-                 placeholder="Количество">
-          <button mat-flat-button color="primary"
-                  style="width: 30%; margin-left: 10px;"
-                  (click)="addIngredient(selectedPlanId, day, meal, selectedIngredient.value, selectedAmount[day][meal])">
-            Добавить
+          <button mat-flat-button color="primary" type="button" class="small-button"
+                  (click)="copyPlan()">Подтвердить копирование
           </button>
-        </ng-container>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+        </div>
+      </div>
 
+      <!-- Кнопка для публикации плана -->
+      <button mat-flat-button color="primary" style="width: 33%;" (click)="openPublishModal()">
+        Опубликовать план
+      </button>
+      <!-- Модальное окно для публикации плана -->
+      <div *ngIf="showPublishModal" class="modal">
+        <div class="modal-content">
+          <span class="close" (click)="closeModal()">&times;</span>
+          <h2 class="modal-title">Публикация плана</h2>
+          <form [formGroup]="publishForm">
+            <div class="input-group">
+              <label for="userNameSelect">Имя пользователя</label>
+              <select id="userNameSelect" formControlName="userName" class="form-control"
+                      style="width: 10%;">
+                <option *ngFor="let user of users" [value]="user.username">{{ user.username }}
+                </option>
+              </select>
+            </div>
+            <div class="input-group">
+              <label for="week" style="margin-bottom: 5px;">Количество недель</label>
+              <input id="week" type="number" value="1" min="0" formControlName="week"
+                     class="form-control" style="width: 10%; margin-bottom: 5px;">
+            </div>
+            <div class="input-group">
+              <label for="date">Дата начала плана</label>
+              <input id="date" type="date" formControlName="date" class="form-control"
+                     style="width: 10%;">
+            </div>
+            <button type="button"
+                    style="width: 20%; margin-right: 1rem; margin-top: 1rem; left: 12px;"
+                    [disabled]="publishForm.invalid" (click)="publishPlan()" mat-flat-button
+                    color="primary">
+              Опубликовать
+            </button>
+          </form>
+        </div>
+      </div>
+
+    </div>
+
+    <table>
+      <thead>
+      <tr>
+        <th>День недели</th>
+        <th>Завтрак</th>
+        <th>Обед</th>
+        <th>Ужин</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let day of daysOfWeek">
+        <td>{{ translateEnglishToRussianDay(day) }}</td>
+        <td *ngFor="let meal of eatingTimes">
+          <div *ngFor="let ingredientDay of getIngredientsForDayAndMeal(day, meal)"
+               [ngClass]="{'text-green': isDietician && ingredientDay.checkIngredient === true,
+                   'text-red': isDietician && ingredientDay.checkIngredient === false}">
+            {{ ingredientDay.count }} x {{ ingredientDay.ingredient.name }}
+            <!-- Иконка стрелочки и дополнительная информация -->
+            <span *ngIf="isDietician && ingredientDay.checkIngredient === false"
+                  (click)="toggleIngredientDetails(selectedPlanId, day, meal, ingredientDay)">
+                  &#x25BC;
+                  <div *ngIf="ingredientDay.showDetails">
+                    <!-- Дополнительная информация отобразится здесь -->
+                    {{ ingredientDay.name }}: {{ ingredientDay.countT }}
+                    <div
+                        *ngIf="ingredientDay.comment">Комментарий: {{ ingredientDay.comment }}</div>
+                  </div>
+            </span>
+            <button *ngIf="isDietician" color="accent" mat-button
+                    (click)="deleteIngredient(selectedPlanId, day, meal, ingredientDay.ingredient.name)">
+              <mat-icon color="accent">clear</mat-icon>
+            </button>
+            <!-- Кнопка "Подтвердить" видна только если пользователь не является диетологом -->
+            <div
+                *ngIf="ingredientDay.checkIngredient !== true && ingredientDay.checkIngredient !== false">
+              <button mat-flat-button color="primary"
+                      style="width: 30%; margin-left: 10px; font-size: 11px;" *ngIf="!isDietician"
+                      (click)="check(selectedPlanId, day, meal, ingredientDay.ingredient.name, ingredientDay.count)">
+                Подтвердить
+              </button>
+
+              <!--            <button mat-flat-button color="primary"-->
+              <!--                    style="width: 30%; margin-left: 10px; font-size: 11px;" *ngIf="!isDietician"-->
+              <!--                    (click)="enableEdit(ingredientDay)">Изменить-->
+              <!--            </button>-->
+
+              <button mat-flat-button color="primary"
+                      style="width: 30%; margin-left: 10px; font-size: 11px;" *ngIf="!isDietician"
+                      (click)="openEditModal(day, meal, ingredientDay)">Изменить
+              </button>
+            </div>
+
+            <div *ngIf="showEditModal" class="modal">
+              <div class="modal-content">
+                <span class="close" (click)="closeEditModal()">&times;</span>
+                <h2 class="modal-title">Изменение ингредиента</h2>
+                <form [formGroup]="editForm">
+                  <div class="input-group custom-input-group">
+                    <label for="ingredient">Ингредиент</label>
+                    <select id="ingredient" formControlName="ingredient" class="form-control"
+                            style="width: 10%;">
+                      <option *ngFor="let ingredient of ingredients" [value]="ingredient.name">{{
+                        ingredient.name }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="input-group custom-input-group">
+                    <label for="count" style="margin-bottom: 5px;">Количество</label>
+                    <input id="count" type="number" value="1" min="0" formControlName="count"
+                           class="form-control" style="width: 10%; margin-bottom: 5px;">
+                  </div>
+                  <div class="input-group custom-input-group">
+                    <label for="comment" style="margin-bottom: 5px;">Комментарий</label>
+                    <input id="comment" type="text" formControlName="comment"
+                           class="form-control" style="width: 10%; margin-bottom: 5px;">
+                  </div>
+                  <button type="button"
+                          style="width: 20%; margin-right: 1rem; margin-top: 1rem; left: 12px;"
+                          [disabled]="editForm.invalid" (click)="updateIngredient()" mat-flat-button
+                          color="primary">
+                    Изменить
+                  </button>
+                </form>
+              </div>
+            </div>
+
+            <!-- Поля для редактирования, появляются в режиме редактирования -->
+            <!--          <div *ngIf="ingredientDay.editing">-->
+            <!--            <select [(ngModel)]="ingredientDay.selectedIngredient" class="form-control">-->
+            <!--              <option *ngFor="let ingredient of ingredients" [ngValue]="ingredient">-->
+            <!--                {{ ingredient.name }}-->
+            <!--              </option>-->
+            <!--            </select>-->
+            <!--            <input type="number" [(ngModel)]="ingredientDay.count" placeholder="Количество">-->
+            <!--            <input type="text" [(ngModel)]="ingredientDay.comment" placeholder="Комментарий">-->
+            <!--            <button mat-flat-button color="primary"-->
+            <!--                    style="width: 30%; margin-left: 10px; font-size: 11px;" (click)="updateIngredient(selectedPlanId, day, meal, ingredientDay.ingredient,-->
+            <!--            ingredientDay.selectedIngredient || ingredientDay.ingredient, ingredientDay.count, ingredientDay.comment)">-->
+            <!--              Сохранить изменения-->
+            <!--            </button>-->
+            <!--            <button (click)="ingredientDay.editing = false">Отмена</button>-->
+            <!--          </div>-->
+          </div>
+          <!-- Элементы для добавления ингредиентов видны только если пользователь является диетологом -->
+          <ng-container *ngIf="isDietician">
+            <select #selectedIngredient (change)="onSelectIngredient($event, day, meal)"
+                    class="form-control">
+              <option *ngFor="let ingredient of ingredients" [ngValue]="ingredient">
+                {{ ingredient.name }}
+              </option>
+            </select>
+            <input type="number" value="1" min="0" [(ngModel)]="selectedAmount[day][meal]"
+                   placeholder="Количество">
+            <button mat-flat-button color="primary"
+                    style="width: 30%; margin-left: 10px;"
+                    (click)="addIngredient(selectedPlanId, day, meal, selectedIngredient.value, selectedAmount[day][meal])">
+              Добавить
+            </button>
+          </ng-container>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
