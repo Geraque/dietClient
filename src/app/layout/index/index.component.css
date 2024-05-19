@@ -136,9 +136,17 @@ input[type="number"] {
     left: 238px;
  }
 
- .input-group label {
-     margin-left: 60px; /* Добавляет отступ слева для метки */
- }
+.input-group label {
+    margin-left: 60px; /* Добавляет отступ слева для метки */
+}
+
+.input-group.custom-input-group label {
+    margin-left: 80px; /* Увеличение отступа слева для меток в новом классе */
+}
+
+.input-group.custom-input-group {
+    left: 238px; /* Сдвиг влево для нового класса */
+}
 
  #userNameSelect {
      height: 35px; /* Установленная ранее высота для списка */

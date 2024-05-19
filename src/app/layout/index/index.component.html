@@ -147,14 +147,14 @@
                     style="width: 30%; margin-left: 10px; font-size: 11px;" *ngIf="!isDietician"
                     (click)="openEditModal(day, meal, ingredientDay)">Изменить
             </button>
-
           </div>
-          <div *ngIf="editForm && showEditModal" class="modal">
+
+          <div *ngIf="showEditModal" class="modal">
             <div class="modal-content">
               <span class="close" (click)="closeEditModal()">&times;</span>
               <h2 class="modal-title">Изменение ингредиента</h2>
               <form [formGroup]="editForm">
-                <div class="input-group">
+                <div class="input-group custom-input-group">
                   <label for="ingredient">Ингредиент</label>
                   <select id="ingredient" formControlName="ingredient" class="form-control"
                           style="width: 10%;">
@@ -163,12 +163,12 @@
                     </option>
                   </select>
                 </div>
-                <div class="input-group">
+                <div class="input-group custom-input-group">
                   <label for="count" style="margin-bottom: 5px;">Количество</label>
                   <input id="count" type="number" value="1" min="0" formControlName="count"
                          class="form-control" style="width: 10%; margin-bottom: 5px;">
                 </div>
-                <div class="input-group">
+                <div class="input-group custom-input-group">
                   <label for="comment" style="margin-bottom: 5px;">Комментарий</label>
                   <input id="comment" type="text" formControlName="comment"
                          class="form-control" style="width: 10%; margin-bottom: 5px;">
