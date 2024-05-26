@@ -6,4 +6,5 @@ export interface Plan {
   name: string;
   days: Day[];
   realDays: RealDay[];
+  ready: boolean;
 }

@@ -27,13 +27,11 @@ export class IndexComponent implements OnInit {
   selectedPlanId: number;
   selectedUserId: number;
   isDietician: boolean = false;
-  newPlanName: string = '';
   showPublishModal: boolean = false;
   showCopyModal: boolean = false;
   showCreateModal: boolean = false;
   showEditModal: boolean = false;
   copyPlanId: number;
-  publishUserId: number;
   public publishForm: FormGroup;
   public createForm: FormGroup;
   public editForm: FormGroup;
@@ -101,17 +99,17 @@ constructor(
     if (this.editForm.valid) {
       const { ingredient, count, comment} = this.editForm.value;
       if (count > 0 && ingredient) {
-          this.planService.update(this.selectedPlanId, this.editDay, this.editEatingTime, this.editIngredient.ingredient.name, ingredient, count, comment).subscribe(
-              response => {
-                  this.notificationService.showSnackBar('Ингредиент изменён');
-                  console.log('Ингредиент обновлен:', response);
-                  // Здесь можно обновить UI соответствующим образом
-                  this.updateIngredientsForDayAndMeal(this.editDay, this.editEatingTime);
-              },
-              error => {
-                  console.error('Ошибка при обновлении ингредиента:', error);
-              }
-          );
+        this.planService.update(this.selectedPlanId, this.editDay, this.editEatingTime, this.editIngredient.ingredient.name, ingredient, count, comment).subscribe(
+          response => {
+            this.notificationService.showSnackBar('Ингредиент изменён');
+            console.log('Ингредиент обновлен:', response);
+            // Здесь можно обновить UI соответствующим образом
+            this.updateIngredientsForDayAndMeal(this.editDay, this.editEatingTime);
+          },
+          error => {
+            console.error('Ошибка при обновлении ингредиента:', error);
+          }
+        );
       } else {
           console.error('Ингредиент не выбран или количество указано не верно.');
       }
@@ -384,5 +382,10 @@ constructor(
       'SUNDAY': 'ВОСКРЕСЕНЬЕ'
     };
     return daysMapping[englishDay] || '';
+  }
+
+  checkPublish(): boolean {
+    const currentPlan = this.plans.find(plan => plan.planId === this.selectedPlanId);
+    return !currentPlan.ready;
   }
 }
