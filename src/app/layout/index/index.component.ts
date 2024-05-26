@@ -28,19 +28,19 @@ export class IndexComponent implements OnInit {
   selectedUserId: number;
   isDietician: boolean = false;
   newPlanName: string = '';
-showPublishModal: boolean = false;
-showCopyModal: boolean = false;
-showCreateModal: boolean = false;
-showEditModal: boolean = false;
-copyPlanId: number;
-publishUserId: number;
-public publishForm: FormGroup;
-public createForm: FormGroup;
-public editForm: FormGroup;
+  showPublishModal: boolean = false;
+  showCopyModal: boolean = false;
+  showCreateModal: boolean = false;
+  showEditModal: boolean = false;
+  copyPlanId: number;
+  publishUserId: number;
+  public publishForm: FormGroup;
+  public createForm: FormGroup;
+  public editForm: FormGroup;
 
-editDay: DayOfWeek;
-editEatingTime: EatingTime;
-editIngredient: any;
+  editDay: DayOfWeek;
+  editEatingTime: EatingTime;
+  editIngredient: any;
 
 constructor(
   private ingredientService: IngredientService,
@@ -227,14 +227,13 @@ constructor(
       );
   }
 
-  getPlans() {
+  getPlans(selectedPlanId?: number) {
     this.planService.getPlansForCurrentUser().subscribe(
       plansData => {
-        // Теперь мы предполагаем, что plansData это массив Plan объектов, а не один объект
         this.plans = plansData;
-        // Установим selectedPlanId для первого плана в массиве по умолчанию, если планы существуют
+        // Устанавливаем selectedPlanId на переданное значение или по умолчанию первый план
         if (this.plans && this.plans.length > 0) {
-          this.selectedPlanId = this.plans[0].planId;
+          this.selectedPlanId = selectedPlanId ? selectedPlanId : this.plans[0].planId;
         } else {
           this.selectedPlanId = null;
         }
@@ -274,8 +273,9 @@ constructor(
         response => {
           this.notificationService.showSnackBar('Ингредиент добавлен');
           console.log('Ингредиент добавлен:', response);
-          // Тут можно добавить логику обновления UI
-          this.updateIngredientsForDayAndMeal(day, meal);
+          const currentSelectedPlanId = this.selectedPlanId;
+          // Обновляем UI и сохраняем план
+          this.updateIngredientsAfterAdd(day, meal, currentSelectedPlanId);
         },
         error => {
           console.error('Ошибка при добавлении ингредиента:', error);
@@ -340,15 +340,12 @@ constructor(
     }
   }
 
+  updateIngredientsAfterAdd(day: DayOfWeek, meal: EatingTime, planId: number) {
+      this.getPlans(planId);
+  }
+
   updateIngredientsForDayAndMeal(day: DayOfWeek, meal: EatingTime) {
-    // Обновляем список ингредиентов для данного дня и приема пищи.
-    // Для этого можно перезапросить данные у сервера или обновить локальный this.plans
-    this.getPlans(); // Пример обновления данных через запрос к серверу
-    // Альтернативно локальное обновление (без запроса к серверу) может выглядеть как-то так:
-    // const updatedPlanDay = this.plans.find(planDay => planDay.day === day && planDay.meal === meal);
-    // if (updatedPlanDay) {
-    //   updatedPlanDay.ingredients.push({ /* Данные нового ингредиента */ });
-    // }
+    this.getPlans();
   }
 
   enableEdit(ingredientDay: any) {
