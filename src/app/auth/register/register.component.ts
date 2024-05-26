@@ -32,25 +32,44 @@ constructor(
       lastname: ['', Validators.compose([Validators.required])],
       password: ['', Validators.compose([Validators.required])],
       confirmPassword: ['', Validators.compose([Validators.required])],
+      isDiet: [false],
     });
   }
 
   submit(): void {
     console.log(this.registerForm.value);
+    if(this.registerForm.value.isDiet){
+      this.authService.registerDiet({
+        email: this.registerForm.value.email,
+        username: this.registerForm.value.username,
+        firstname: this.registerForm.value.firstname,
+        lastname: this.registerForm.value.lastname,
+        password: this.registerForm.value.password,
+        confirmPassword: this.registerForm.value.confirmPassword,
+      }).subscribe(data => {
+        console.log(data);
+        this.notificationService.showSnackBar('Регистрация прошла успешно!');
+      }, error => {
+        this.notificationService.showSnackBar('Данный адрес электронный почты уже используется');
+      });
+    } else {
+      this.authService.register({
+        email: this.registerForm.value.email,
+        username: this.registerForm.value.username,
+        firstname: this.registerForm.value.firstname,
+        lastname: this.registerForm.value.lastname,
+        password: this.registerForm.value.password,
+        confirmPassword: this.registerForm.value.confirmPassword,
+        isDiet: this.registerForm.value.isDiet,
+      }).subscribe(data => {
+        console.log(data);
+        this.notificationService.showSnackBar('Регистрация прошла успешно!');
+      }, error => {
+        this.notificationService.showSnackBar('Данный адрес электронный почты уже используется');
+      });
+    }
 
-    this.authService.register({
-      email: this.registerForm.value.email,
-      username: this.registerForm.value.username,
-      firstname: this.registerForm.value.firstname,
-      lastname: this.registerForm.value.lastname,
-      password: this.registerForm.value.password,
-      confirmPassword: this.registerForm.value.confirmPassword,
-    }).subscribe(data => {
-      console.log(data);
-      this.notificationService.showSnackBar('Регистрация прошла успешно!');
-    }, error => {
-      this.notificationService.showSnackBar('Данный адрес электронный почты уже используется');
-    });
+
   }
 
 }

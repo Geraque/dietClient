@@ -29,6 +29,17 @@ constructor(private http: HttpClient) { }
     });
   }
 
+  public registerDiet(user): Observable<any> {
+    return this.http.post(AUTH_API + 'addDiet', {
+      email: user.email,
+      username: user.username,
+      firstname: user.firstname,
+      lastname: user.lastname,
+      password: user.password,
+      confirmPassword: user.confirmPassword
+    });
+  }
+
   public registerAdmin(user): Observable<any> {
     return this.http.post(AUTH_API + 'addAdmin', {
       email: user.email,
