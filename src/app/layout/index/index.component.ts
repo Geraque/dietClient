@@ -156,7 +156,7 @@ constructor(
   //Метод копирования плана:
   copyPlan(): void {
     if (!this.copyPlanId) {
-      alert("Выберите план для копирования.");
+      this.notificationService.showSnackBar('Выберите план для копирования');
       return;
     }
     this.planService.copy(this.selectedPlanId.toString(), this.copyPlanId.toString()).subscribe({
