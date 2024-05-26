@@ -21,6 +21,7 @@ export class NavigationComponent implements OnInit {
   searchTerm: string;
   notifications: NotificationApp[] = [];
   unreadNotifications = 0;
+  notificationsLength: number;
 
 constructor(
     private tokenService: TokenStorageService,
@@ -43,6 +44,7 @@ constructor(
       this.notificationAppService.getAllByUser().subscribe(data => {
         this.notifications = data;
         this.unreadNotifications = this.notifications.filter(notif => !notif.isRead).length;
+        this.notificationsLength = data.length
       });
         })
       this.imageService.getProfileImage()

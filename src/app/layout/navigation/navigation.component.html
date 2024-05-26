@@ -23,18 +23,28 @@
     <span *ngIf="unreadNotifications > 0" class="notification-badge">{{unreadNotifications}}</span>
   </button>
   <mat-menu #notificationsMenu="matMenu">
-    <div *ngFor="let notification of notifications; let last = last">
-      <mat-menu-item>
-        <h3 class="notification-heading">{{notification.heading}}</h3>
-        <p class="notification-text">{{notification.text}}</p>
-        <p class="notification-date">{{notification.date | date:'medium' | date: 'dd.MM.yyyy HH:mm'}}</p>
-        <button *ngIf="!notification.isRead" mat-button (click)="markAsRead(notification.id)">Прочитать</button>
-        <mat-icon *ngIf="!notification.isRead">mark_email_unread</mat-icon>
-        <button mat-button (click)="markAsDelete(notification.id)">Удалить</button>
-        <mat-icon>delete_outline</mat-icon>
+    <ng-container *ngIf="notifications && notifications.length > 0; else noNotifications">
+      <div *ngFor="let notification of notifications; let last = last">
+        <mat-menu-item>
+          <h3 class="notification-heading">{{notification.heading}}</h3>
+          <p class="notification-text">{{notification.text}}</p>
+          <p class="notification-date">{{notification.date | date:'medium' | date: 'dd.MM.yyyy
+            HH:mm'}}</p>
+          <button *ngIf="!notification.isRead" mat-button (click)="markAsRead(notification.id)">
+            Прочитать
+          </button>
+          <mat-icon *ngIf="!notification.isRead">mark_email_unread</mat-icon>
+          <button mat-button (click)="markAsDelete(notification.id)">Удалить</button>
+          <mat-icon>delete_outline</mat-icon>
+        </mat-menu-item>
+        <mat-divider *ngIf="!last"></mat-divider> <!-- Разделяющая линия -->
+      </div>
+    </ng-container>
+    <ng-template #noNotifications>
+      <mat-menu-item class="no-notifications-item">
+        Нет уведомлений
       </mat-menu-item>
-      <mat-divider *ngIf="!last"></mat-divider> <!-- Разделяющая линия -->
-    </div>
+    </ng-template>
   </mat-menu>
 
   <h3 *ngIf="isDataLoaded">{{this.user.firstname}} {{this.user.lastname}}</h3>
