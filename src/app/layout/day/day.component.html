@@ -1,8 +1,8 @@
 <div class="container">
-  <h2>Рацион на {{ currentDate | date: 'longDate' }}</h2>
+  <h2>Рацион на {{ translateEnglishToRussianDate(currentDate) }}</h2>
 
   <div *ngFor="let meal of mealsToday">
-    <h3>{{ meal.eatingTime | titlecase }}</h3>
+    <h3>{{translateEnglishToRussianEatingTime(meal.eatingTime)}}</h3>
     <table>
       <thead>
       <tr>

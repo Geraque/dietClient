@@ -43,4 +43,38 @@ constructor(private planService: PlanService) {}
       this.mealsToday = todayMeals;
     });
   }
+
+    translateEnglishToRussianEatingTime(englishDay: string): string {
+      const daysMapping: { [key: string]: string } = {
+        'BREAKFAST': 'ЗАВТРАК',
+        'LUNCH': 'ОБЕД',
+        'DINNER': 'УЖИН'
+      };
+      return daysMapping[englishDay] || '';
+    }
+
+    translateEnglishToRussianDate(currentDate: Date): string {
+      const monthNames: { [key: string]: string } = {
+          'January': 'Январь',
+          'February': 'Февраль',
+          'March': 'Март',
+          'April': 'Апрель',
+          'May': 'Май',
+          'June': 'Июнь',
+          'July': 'Июль',
+          'August': 'Август',
+          'September': 'Сентябрь',
+          'October': 'Октябрь',
+          'November': 'Ноябрь',
+          'December': 'Декабрь'
+      };
+
+      const day = currentDate.getDate();
+      const month = currentDate.toLocaleString('en-US', { month: 'long' });
+      const year = currentDate.getFullYear();
+
+      const russianMonth = monthNames[month];
+
+      return `${russianMonth} ${day}, ${year}`;
+    }
 }
