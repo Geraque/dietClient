@@ -148,6 +148,16 @@ input[type="number"] {
     left: 238px; /* Сдвиг влево для нового класса */
 }
 
- #userNameSelect {
-     height: 35px; /* Установленная ранее высота для списка */
- }
+#userNameSelect {
+   height: 35px; /* Установленная ранее высота для списка */
+}
+
+.button-wrapper {
+   margin-top: 30px; /* Задает отступ сверху для кнопки */
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px; /* Расстояние между кнопками */
+}

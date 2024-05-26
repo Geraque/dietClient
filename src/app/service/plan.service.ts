@@ -83,6 +83,10 @@ constructor(private http: HttpClient) { }
     return this.http.post(PLAN_API + planId + '/' + dayOfWeek + '/' + eatingTime + '/update', uploadData);
   }
 
+  deletePlan(planName: number): Observable<any> {
+    return this.http.delete(PLAN_API + planName + '/delete');
+  }
+
   updateReal(planId: number, dayOfWeek: DayOfWeek,
                         eatingTime: EatingTime, ingredientOld: string,
                         ingredientNew: string, count: number, comment: string, date: string): Observable<any> {

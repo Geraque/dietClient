@@ -31,6 +31,7 @@ export class IndexComponent implements OnInit {
   showCopyModal: boolean = false;
   showCreateModal: boolean = false;
   showEditModal: boolean = false;
+  showDeleteModal: boolean = false;
   copyPlanId: number;
   public publishForm: FormGroup;
   public createForm: FormGroup;
@@ -116,15 +117,21 @@ constructor(
     }
   }
 
-  //Метод для открытия модального окна копирования:
   openCreateModal(): void {
     this.showCreateModal = true;
     this.createForm = this.createCreateForm();
   }
 
-  // Метод для закрытия модального окна копирования:
   closeCreateModal(): void {
     this.showCreateModal = false;
+  }
+
+  openDeleteModal(planName: string): void {
+    this.showDeleteModal = true;
+  }
+
+  closeDeleteModal(): void {
+    this.showDeleteModal = false;
   }
 
   createCreateForm(): FormGroup {
@@ -149,8 +156,16 @@ constructor(
         }
       });
     }
+  }
 
-
+  deletePlan() {
+    this.planService.deletePlan(this.selectedPlanId).subscribe({
+      next: (plan) => {
+        this.notificationService.showSnackBar('План удалён');
+        console.log('План удалён:', plan);
+        this.getPlans(); // Обновляем список планов
+      },
+    });
   }
 
   //Метод копирования плана:
