@@ -18,7 +18,7 @@
 
     <div *ngIf="checkPublish()">
       <div style="display: flex; justify-content: space-between;" *ngIf="isDietician === true">
-        <button mat-flat-button color="primary" style="width: 24.5%;" (click)="openCreateModal()">
+        <button mat-flat-button color="primary" style="width: 19.5%;" (click)="openCreateModal()">
           Создать план
         </button>
         <!-- Модальное окно для публикации плана -->
@@ -44,7 +44,7 @@
         </div>
 
         <!-- Кнопка для копирования плана -->
-        <button mat-flat-button color="primary" style="width: 24.5%;" (click)="openCopyModal()">
+        <button mat-flat-button color="primary" style="width: 19.5%;" (click)="openCopyModal()">
           Копировать план
         </button>
         <!-- Модальное окно для копирования плана -->
@@ -64,7 +64,7 @@
         </div>
 
         <!-- Кнопка для публикации плана -->
-        <button mat-flat-button color="primary" style="width: 24.5%;" (click)="openPublishModal()">
+        <button mat-flat-button color="primary" style="width: 19.5%;" (click)="openPublishModal()">
           Опубликовать план
         </button>
         <!-- Модальное окно для публикации плана -->
@@ -101,8 +101,13 @@
           </div>
         </div>
 
+        <!-- Кнопка скачивания плана -->
+        <button mat-flat-button color="primary" style="width: 19.5%;" (click)="openDeleteModal()">
+          Скачать план
+        </button>
+
         <!-- Кнопка удаления плана -->
-        <button mat-flat-button color="primary" style="width: 24.5%;" (click)="openDeleteModal()">
+        <button mat-flat-button color="primary" style="width: 19.5%;" (click)="openDeleteModal()">
           Удалить план
         </button>
         <!-- Модальное окно для удаления плана -->
@@ -124,7 +129,7 @@
     </div>
     <div *ngIf="!checkPublish()">
       <div style="display: flex; justify-content: space-between;" *ngIf="isDietician === true">
-        <button mat-flat-button color="primary" style="width: 49.5%;" (click)="openCreateModal()">
+        <button mat-flat-button color="primary" style="width: 33%;" (click)="openCreateModal()">
           Создать план
         </button>
         <!-- Модальное окно для публикации плана -->
@@ -149,8 +154,28 @@
           </div>
         </div>
 
+        <!-- ДОПИСАААААААААААААААТЬЬ -->
+        <button mat-flat-button color="primary" style="width: 33%;" (click)="openDeleteModal()">
+          Скачать план
+        </button>
+        <!-- Модальное окно для удаления плана -->
+        <div *ngIf="showDeleteModal" class="modal">
+          <div class="modal-content">
+            <span class="close" (click)="closeDeleteModal()">×</span>
+            <h2>Вы уверены, что хотите удалить данный план?</h2>
+            <div class="button-container">
+              <button mat-flat-button color="primary" type="button" class="small-button"
+                      (click)="deletePlan()" style='width: 20%'>Да
+              </button>
+              <button mat-flat-button color="primary" type="button" class="small-button"
+                      (click)="closeDeleteModal()" style='width: 20%'>Нет
+              </button>
+            </div>
+          </div>
+        </div>
+
         <!-- Кнопка удаления плана -->
-        <button mat-flat-button color="primary" style="width: 49.5%;" (click)="openDeleteModal()">
+        <button mat-flat-button color="primary" style="width: 33%;" (click)="openDeleteModal()">
           Удалить план
         </button>
         <!-- Модальное окно для удаления плана -->
@@ -171,6 +196,29 @@
       </div>
     </div>
 
+    <div *ngIf="!isDietician">
+      <div style="display: flex; justify-content: space-between;">
+        <!-- ДОПИСАААААААААААААААТЬЬ -->
+        <button mat-flat-button color="primary" style="width: 100%;" (click)="openDeleteModal()">
+          Скачать план
+        </button>
+        <!-- Модальное окно для удаления плана -->
+        <div *ngIf="showDeleteModal" class="modal">
+          <div class="modal-content">
+            <span class="close" (click)="closeDeleteModal()">×</span>
+            <h2>Вы уверены, что хотите удалить данный план?</h2>
+            <div class="button-container">
+              <button mat-flat-button color="primary" type="button" class="small-button"
+                      (click)="deletePlan()" style='width: 20%'>Да
+              </button>
+              <button mat-flat-button color="primary" type="button" class="small-button"
+                      (click)="closeDeleteModal()" style='width: 20%'>Нет
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <table>
       <thead>
