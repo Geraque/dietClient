@@ -126,4 +126,8 @@ constructor(private http: HttpClient) { }
     uploadData.append('date', date);
     return this.http.post(PLAN_API + 'ready', uploadData);
   }
+
+  printPlan(planId: number): Observable<any> {
+    return this.http.get('http://localhost:8080/api/print/' + planId, { responseType: 'blob' });
+  }
 }

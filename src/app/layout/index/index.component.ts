@@ -10,6 +10,7 @@ import {EatingTime} from '../../models/EatingTime';
 import {Plan} from '../../models/Plan';
 import {User}from '../../models/User';
 import {NotificationService}from '../../service/notification.service';
+import {saveAs} from 'file-saver';
 
 @Component({
   selector: 'app-index',
@@ -402,5 +403,12 @@ constructor(
   checkPublish(): boolean {
     const currentPlan = this.plans.find(plan => plan.planId === this.selectedPlanId);
     return !currentPlan.ready;
+  }
+
+  printPlan(): void {
+    this.planService.printPlan(this.selectedPlanId).subscribe((data) => {
+      const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+      saveAs(blob, 'plan.xlsx');
+    });
   }
 }
