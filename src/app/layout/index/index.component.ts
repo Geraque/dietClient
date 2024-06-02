@@ -369,7 +369,7 @@ constructor(
   }
 
 
-    toggleIngredientDetails(planId: number, dayOfWeek: DayOfWeek, eatingTime: EatingTime, ingredientDay: any) {
+  toggleIngredientDetails(planId: number, dayOfWeek: DayOfWeek, eatingTime: EatingTime, ingredientDay: any) {
     if (ingredientDay.showDetails) {
       ingredientDay.showDetails = false;
     } else {

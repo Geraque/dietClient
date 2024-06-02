@@ -1,38 +1,56 @@
 <div class="container">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+        crossorigin="anonymous">
   <h2>Рацион на {{ translateEnglishToRussianDate(currentDate) }}</h2>
 
-  <div *ngFor="let meal of mealsToday">
-    <h3>{{translateEnglishToRussianEatingTime(meal.eatingTime)}}</h3>
-    <table>
-      <thead>
-      <tr>
-        <th>Ингредиент</th>
-        <th>Количество</th>
-        <th>Белки (г)</th>
-        <th>Жиры (г)</th>
-        <th>Углеводы (г)</th>
-        <th>Калории</th>
-        <!-- Оставлено место для кнопок редактирования, если пользователь - диетолог -->
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let ingredient of meal.ingredients">
-        <td>{{ ingredient.ingredient.name }}</td>
-        <td>{{ ingredient.count }} шт</td>
-        <td>{{ ingredient.ingredient.proteins }}</td>
-        <td>{{ ingredient.ingredient.fat }}</td>
-        <td>{{ ingredient.ingredient.carbohydrates }}</td>
-        <td>{{ ingredient.ingredient.calories }}</td>
-      </tr>
-      </tbody>
-    </table>
+  <div *ngIf="selectedPlanId===null" class="centered-message">
+    У вас нет планов питания
   </div>
+  <div *ngIf="selectedPlanId!==null">
+    <select [(ngModel)]="selectedPlanId" (change)="onPlanChange()" class="form-control">
+      <option *ngFor="let plan of plans" [ngValue]="plan.planId">
+        {{ plan.name }}
+      </option>
+    </select>
 
-  <div class="nutritional-values">
-    <h3>Суммарные питательные значения за день:</h3>
-    <p>Белки: {{ totalProteins }} г</p>
-    <p>Жиры: {{ totalFats }} г</p>
-    <p>Углеводы: {{ totalCarbohydrates }} г</p>
-    <p>Калории: {{ totalCalories }} ккал</p>
+    <div *ngIf="selectedPlanId!==null">
+      <div *ngFor="let meal of mealsToday">
+        <h3>{{translateEnglishToRussianEatingTime(meal.eatingTime)}}</h3>
+        <table>
+          <thead>
+          <tr>
+            <th>Ингредиент</th>
+            <th>Количество</th>
+            <th>Белки (г)</th>
+            <th>Жиры (г)</th>
+            <th>Углеводы (г)</th>
+            <th>Калории</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let ingredient of meal.ingredients">
+            <td>{{ ingredient.ingredient.name }}</td>
+            <td>{{ ingredient.count }} шт</td>
+            <td>{{ ingredient.ingredient.proteins }}</td>
+            <td>{{ ingredient.ingredient.fat }}</td>
+            <td>{{ ingredient.ingredient.carbohydrates }}</td>
+            <td>{{ ingredient.ingredient.calories }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="nutritional-values">
+      <h3>Суммарные питательные значения за день:</h3>
+      <p>Белки: {{ totalProteins }} г</p>
+      <p>Жиры: {{ totalFats }} г</p>
+      <p>Углеводы: {{ totalCarbohydrates }} г</p>
+      <p>Калории: {{ totalCalories }} ккал</p>
+    </div>
   </div>
 </div>
