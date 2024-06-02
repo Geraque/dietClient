@@ -251,6 +251,7 @@ constructor(
         } else {
           this.selectedPlanId = null;
         }
+        console.log("this.selectedPlanId: ", this.selectedPlanId)
       },
       error => {
         console.error(error);

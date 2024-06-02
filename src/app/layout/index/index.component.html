@@ -6,8 +6,36 @@
         rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
         crossorigin="anonymous">
-  <div *ngIf="selectedPlanId===null" class="centered-message">
-    У вас нет планов питания
+  <div *ngIf="selectedPlanId===null">
+    <div class="centered-message">
+      У вас нет планов питания
+    </div>
+    <div *ngIf="isDietician" style="display: flex; justify-content: center; margin-top: 300px;">
+      <button mat-flat-button color="primary" style="width: 33%;" (click)="openCreateModal()">
+        Создать план
+      </button>
+    </div>
+    <!-- Модальное окно для публикации плана -->
+    <div *ngIf="showCreateModal" class="modal">
+      <div class="modal-content">
+        <span class="close" (click)="closeCreateModal()">&times;</span>
+        <h2 class="modal-title">Создание плана</h2>
+        <form [formGroup]="createForm">
+          <mat-form-field appearance="outline" class="small-input">
+            <mat-label>Название</mat-label>
+            <input matInput formControlName="name">
+          </mat-form-field>
+
+          <div class="button-wrapper">
+            <button type="button" style="width: 25%; margin-right: 1rem; margin-left: 10px;"
+                    [disabled]="createForm.invalid" (click)="createPlan()" mat-flat-button
+                    color="primary">
+              Создать
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
   <div *ngIf="selectedPlanId!==null">
     <select [(ngModel)]="selectedPlanId" class="form-control">
@@ -198,7 +226,7 @@
     <div *ngIf="!isDietician">
       <div style="display: flex; justify-content: space-between;">
         <!-- ДОПИСАААААААААААААААТЬЬ -->
-        <button mat-flat-button color="primary" style="width: 100%;" (click)="openDeleteModal()">
+        <button mat-flat-button color="primary" style="width: 100%;" (click)="printPlan()">
           Скачать план
         </button>
         <!-- Модальное окно для удаления плана -->
