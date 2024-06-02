@@ -19,7 +19,8 @@
 
     <div *ngIf="selectedPlanId!==null">
       <div *ngFor="let meal of mealsToday">
-        <h3>{{translateEnglishToRussianEatingTime(meal.eatingTime)}}</h3>
+        <h3 style='text-align: center; margin-top: 10px;'>
+          {{translateEnglishToRussianEatingTime(meal.eatingTime)}}</h3>
         <table>
           <thead>
           <tr>
