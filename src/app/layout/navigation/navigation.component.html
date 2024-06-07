@@ -18,7 +18,8 @@
   <!--    <mat-icon>bookmark_border</mat-icon>-->
   <!--  </button>-->
 
-  <button matTooltip="Notifications" mat-icon-button [matMenuTriggerFor]="notificationsMenu" class="example-icon">
+  <button *ngIf="isLoggedIn" matTooltip="Notifications" mat-icon-button
+          [matMenuTriggerFor]="notificationsMenu" class="example-icon">
     <mat-icon>notifications</mat-icon>
     <span *ngIf="unreadNotifications > 0" class="notification-badge">{{unreadNotifications}}</span>
   </button>
