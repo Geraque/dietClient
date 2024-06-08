@@ -51,6 +51,31 @@ input[type="number"] {
   text-align: center; /* Выравнивание текста по центру */
 }
 
+.modal-edit {
+    position: fixed; /* Фиксированное позиционирование относительно окна браузера */
+    top: 0;
+    left: 0;
+    width: 100%; /* Ширина на весь экран */
+    height: 100%; /* Высота на весь экран */
+    background-color: rgba(0, 0, 0, 0.05); /* Более темный полупрозрачный черный фон */
+    display: flex;
+    justify-content: center; /* Центрирование контента по горизонтали */
+    align-items: center; /* Центрирование контента по вертикали */
+    z-index: 1000; /* Установим больший z-index для модального окна */
+}
+
+body.modal-open {
+    overflow: hidden; /* Отключаем скролл */
+}
+
+.modal-edit .modal-content {
+    position: relative;
+    z-index: 1001; /* Установим больший z-index для содержания модального окна */
+    background: #fff; /* Установим белый фон для содержания модального окна */
+    padding: 20px; /* Немного паддинга для содержимого */
+    border-radius: 4px; /* Слегка скруглим углы */
+}
+
 .close {
   float: right;
   font-size: 28px;
@@ -149,6 +174,10 @@ input[type="number"] {
 }
 
 #userNameSelect {
+   height: 35px; /* Установленная ранее высота для списка */
+}
+
+#ingredientNameSelect {
    height: 35px; /* Установленная ранее высота для списка */
 }
 

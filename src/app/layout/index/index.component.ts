@@ -90,18 +90,18 @@ constructor(
   }
 
   createEditForm(): FormGroup {
-    return new FormGroup({
-      ingredient: new FormControl('', Validators.required),
-      count: new FormControl(1, [Validators.required, Validators.min(0)]),
-      comment: new FormControl('')
+    return this.fb.group({
+      ingredientName: ['', Validators.compose([Validators.required])],
+      countIngredient: ['', Validators.compose([Validators.required])],
+      commentIngredient: ['', Validators.compose([Validators.required])],
     });
   }
 
   updateIngredient() {
     if (this.editForm.valid) {
-      const { ingredient, count, comment} = this.editForm.value;
-      if (count > 0 && ingredient) {
-        this.planService.update(this.selectedPlanId, this.editDay, this.editEatingTime, this.editIngredient.ingredient.name, ingredient, count, comment).subscribe(
+      const { ingredientName, countIngredient, commentIngredient} = this.editForm.value;
+      if (countIngredient > 0 && ingredientName) {
+        this.planService.update(this.selectedPlanId, this.editDay, this.editEatingTime, this.editIngredient.ingredient.name, ingredientName, countIngredient, commentIngredient).subscribe(
           response => {
             this.notificationService.showSnackBar('Ингредиент изменён');
             console.log('Ингредиент обновлен:', response);
@@ -234,6 +234,7 @@ constructor(
       this.ingredientService.getAllRecipes().subscribe(
           data => {
               this.ingredients = data;
+              console.log("this.ingredients: "+ this.ingredients);
           },
           error => {
               console.error(error);
