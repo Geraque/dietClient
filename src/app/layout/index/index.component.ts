@@ -107,6 +107,7 @@ constructor(
             console.log('Ингредиент обновлен:', response);
             // Здесь можно обновить UI соответствующим образом
             this.updateIngredientsForDayAndMeal(this.editDay, this.editEatingTime);
+            this.closeEditModal()
           },
           error => {
             console.error('Ошибка при обновлении ингредиента:', error);
@@ -151,6 +152,7 @@ constructor(
           console.log('План создан:', plan);
           this.getPlans(); // Обновляем список планов
           this.selectedPlanId = plan.planId; // Устанавливаем созданный план как выбранный
+          this.closeCreateModal();
         },
         error: (error) => {
           console.error('Ошибка при создании плана:', error);

@@ -12,11 +12,11 @@ import {NotificationService}from '../../service/notification.service';
 export class IngredientsComponent implements OnInit{
   ingredients: Ingredient[] = [];
   showPublishModal: boolean = false;
-showChangeModal: boolean = false;
-showDeleteModal: boolean = false;
+  showChangeModal: boolean = false;
+  showDeleteModal: boolean = false;
   public publishForm: FormGroup;
   public changeForm: FormGroup;
-public deleteForm: FormGroup;
+  public deleteForm: FormGroup;
 
 constructor(private ingredientService: IngredientService,
   private notificationService: NotificationService,
@@ -103,8 +103,8 @@ constructor(private ingredientService: IngredientService,
         next: (response) => {
           this.notificationService.showSnackBar('Ингредиент добавлен');
           console.log('Ингредиент успешно добавлен:', response);
-          this.closeModal();
           this.getIngredients(); // обновить список ингредиентов
+          this.closeModal();
         },
         error: (error) => {
           this.notificationService.showSnackBar('Заполните поля валидными данными');
@@ -123,8 +123,8 @@ constructor(private ingredientService: IngredientService,
         next: (response) => {
           this.notificationService.showSnackBar('Ингредиент изменён');
           console.log('Ингредиент успешно изменён:', response);
-          this.closeModal();
           this.getIngredients(); // обновить список ингредиентов
+          this.closeModal();
         },
         error: (error) => {
           console.error('Ошибка при изменении ингредиента:', error);
@@ -142,8 +142,8 @@ constructor(private ingredientService: IngredientService,
         next: (response) => {
           this.notificationService.showSnackBar('Ингредиент удалён');
           console.log('Ингредиент успешно удалён:', response);
-          this.closeModal();
           this.getIngredients(); // обновить список ингредиентов
+          this.closeModal();
         },
         error: (error) => {
           this.notificationService.showSnackBar('Ингредиент с таким названием отсутствует');
