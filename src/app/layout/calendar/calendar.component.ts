@@ -16,16 +16,16 @@ templateUrl: './calendar.component.html',
 styleUrls: ['./calendar.component.css']
 })
 export class CalendarComponent implements OnInit {
-daysOfWeek = Object.values(DayOfWeek);
-eatingTimes = Object.values(EatingTime);
-ingredients = [];
-selectedAmount = {};
-planId: number;
-plans: Plan[];
-selectedPlanId: number;
-isDietician: boolean = false;
-currentDate: string = moment().format('DD MM'); // Уже есть в вашем коде
-daysOfWeekWithDates: any[]; // Массив для хранения дней недели с датами
+  daysOfWeek = Object.values(DayOfWeek);
+  eatingTimes = Object.values(EatingTime);
+  ingredients = [];
+  selectedAmount = {};
+  planId: number;
+  plans: Plan[];
+  selectedPlanId: number;
+  isDietician: boolean = false;
+  currentDate: string = moment().format('DD MM'); // Уже есть в вашем коде
+  daysOfWeekWithDates: any[]; // Массив для хранения дней недели с датами
 
 constructor(
   private ingredientService: IngredientService,

@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import {FormBuilder, FormGroup, FormControl, Validators} from '@angular/forms';
 import { IngredientService } from '../../service/ingredient.service';
 import { PlanService } from '../../service/plan.service';
 import { UserService } from '../../service/user.service';
 import { HistoryService } from '../../service/history.service';
+import {NotificationService}from '../../service/notification.service';
 import {Day} from '../../models/Day';
 import {RealDay} from '../../models/RealDay';
 import {DayOfWeek} from '../../models/DayOfWeek';
@@ -29,11 +31,19 @@ export class RealDayComponent {
   currentWeekLabel: string;
   currentWeek: Map<string, string>;
 
+  public editForm: FormGroup;
+  showEditModal: boolean = false;
+  editDay: DayOfWeek;
+  editEatingTime: EatingTime;
+  editIngredient: any;
+
   constructor(
     private ingredientService: IngredientService,
     private planService: PlanService,
     private userService: UserService,
-    private historyService: HistoryService) {}
+    private historyService: HistoryService,
+    private notificationService: NotificationService,
+    private fb: FormBuilder) {}
 
     ngOnInit() {
       this.fillWeekMap();
@@ -43,6 +53,27 @@ export class RealDayComponent {
       this.initializeAmounts();
       this.setCurrentWeek(new Date());
     }
+
+  openEditModal(dayOfWeek: DayOfWeek, eatingTime: EatingTime, ingredientOld: any): void {
+    this.showEditModal = true;
+    this.editForm = this.createEditForm();
+    this.editDay = dayOfWeek;
+    this.editEatingTime = eatingTime;
+    this.editIngredient = ingredientOld;
+  }
+
+  // Метод для закрытия модального окна копирования:
+  closeEditModal(): void {
+    this.showEditModal = false;
+  }
+
+  createEditForm(): FormGroup {
+    return this.fb.group({
+      ingredientName: ['', Validators.compose([Validators.required])],
+      countIngredient: ['', Validators.compose([Validators.required])],
+      commentIngredient: ['', Validators.compose([Validators.required])],
+    });
+  }
 
   setCurrentWeek(date: Date) {
     const startOfWeek = this.getStartOfWeek(date);
@@ -192,14 +223,17 @@ export class RealDayComponent {
         ingredientDay.selectedIngredient = ingredientDay.ingredient;
     }
 
-    updateIngredient(planId: number, dayOfWeek: DayOfWeek, eatingTime: EatingTime, ingredientOld: any, ingredientNew: any, count: number, comment: string) {
-      const date = this.getDayFromDayOfWeek(dayOfWeek)
-      if (count > 0 && ingredientNew) {
-        this.planService.updateReal(planId, dayOfWeek, eatingTime, ingredientOld.name, ingredientNew.name, count, comment, date).subscribe(
+    updateIngredient() {
+      const { ingredientName, countIngredient, commentIngredient} = this.editForm.value;
+      const date = this.getDayFromDayOfWeek(this.editDay)
+      if (countIngredient > 0 && ingredientName) {
+        this.planService.updateReal(this.selectedPlanId, this.editDay, this.editEatingTime, this.editIngredient.ingredient.name, ingredientName, countIngredient, commentIngredient, date).subscribe(
             response => {
-                console.log('Ингредиент обновлен:', response);
-                // Здесь можно обновить UI соответствующим образом
-                this.updateIngredientsForDayAndMeal(dayOfWeek, eatingTime);
+              this.notificationService.showSnackBar('Ингредиент изменён');
+              console.log('Ингредиент обновлен:', response);
+              // Здесь можно обновить UI соответствующим образом
+              this.updateIngredientsForDayAndMeal(this.editDay, this.editEatingTime);
+              this.closeEditModal()
             },
             error => {
                 console.error('Ошибка при обновлении ингредиента:', error);
