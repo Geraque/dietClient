@@ -102,22 +102,24 @@
             <h2 class="modal-title">Публикация плана</h2>
             <form [formGroup]="publishForm">
               <div class="input-group">
-                <label for="userNameSelect">Имя пользователя</label>
+                <label for="userNameSelect" style="position: relative; left: -10px;">Имя
+                  пользователя</label>
                 <select id="userNameSelect" formControlName="userName" class="form-control"
-                        style="width: 10%;">
+                        style="width: 10%; margin-bottom: 5px;">
                   <option *ngFor="let user of users" [value]="user.username">{{ user.username }}
                   </option>
                 </select>
               </div>
               <div class="input-group">
-                <label for="week" style="margin-bottom: 5px;">Количество недель</label>
-                <input id="week" type="number" value="1" min="0" formControlName="week"
+                <label for="week" style="margin-bottom: 0px; position: relative; left: -10px;">Количество
+                  недель</label>
+                <input id="week" type="number" value="1" min="1" formControlName="week"
                        class="form-control" style="width: 10%; margin-bottom: 5px;">
               </div>
               <div class="input-group">
-                <label for="date">Дата начала плана</label>
+                <label for="date" style="position: relative; left: -10px;">Дата начала плана</label>
                 <input id="date" type="date" formControlName="date" class="form-control"
-                       style="width: 10%;">
+                       style="width: 10%; margin-bottom: 5px;">
               </div>
               <button type="button"
                       style="width: 20%; margin-right: 1rem; margin-top: 1rem; left: 12px;"
@@ -301,14 +303,14 @@
                     <label for="ingredientNameSelect">Ингредиент</label>
                     <select id="ingredientNameSelect" formControlName="ingredientName"
                             class="form-control"
-                            style="width: 10%;">
+                            style="width: 10%; margin-bottom: 5px;">
                       <option *ngFor="let ingr of ingredients" [value]="ingr.name">{{ ingr.name }}
                       </option>
                     </select>
                   </div>
                   <div class="input-group">
                     <label for="countIngredient" style="margin-bottom: 5px;">Количество</label>
-                    <input id="countIngredient" type="number" value="1" min="0"
+                    <input id="countIngredient" type="number" value="1" min="1"
                            formControlName="countIngredient"
                            class="form-control" style="width: 10%; margin-bottom: 5px;">
                   </div>
@@ -335,7 +337,7 @@
                 {{ ingredient.name }}
               </option>
             </select>
-            <input type="number" value="1" min="0" [(ngModel)]="selectedAmount[day][meal]"
+            <input type="number" value="1" min="1" [(ngModel)]="selectedAmount[day][meal]"
                    placeholder="Количество">
             <button mat-flat-button color="primary"
                     style="width: 30%; margin-left: 10px;"

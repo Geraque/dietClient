@@ -31,49 +31,49 @@ input[type="number"] {
 }
 
 .modal {
-    position: fixed; /* Фиксированное позиционирование относительно окна браузера */
-    top: 0;
-    left: 0;
-    width: 100%; /* Ширина на весь экран */
-    height: 100%; /* Высота на весь экран */
-    background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный черный фон */
-    display: flex;
-    justify-content: center; /* Центрирование контента по горизонтали */
-    align-items: center; /* Центрирование контента по вертикали */
+  position: fixed; /* Фиксированное позиционирование относительно окна браузера */
+  top: 0;
+  left: 0;
+  width: 100%; /* Ширина на весь экран */
+  height: 100%; /* Высота на весь экран */
+  background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный черный фон */
+  display: flex;
+  justify-content: center; /* Центрирование контента по горизонтали */
+  align-items: center; /* Центрирование контента по вертикали */
 }
 
 .modal-content {
-    background-color: white;
-    padding: 20px;
-    border: 1px solid #ddd;
-    width: 50%;
-    min-width: 300px;
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ddd;
+  width: 45%;
+  min-width: 300px;
   text-align: center; /* Выравнивание текста по центру */
 }
 
 .modal-edit {
-    position: fixed; /* Фиксированное позиционирование относительно окна браузера */
-    top: 0;
-    left: 0;
-    width: 100%; /* Ширина на весь экран */
-    height: 100%; /* Высота на весь экран */
-    background-color: rgba(0, 0, 0, 0.05); /* Более темный полупрозрачный черный фон */
-    display: flex;
-    justify-content: center; /* Центрирование контента по горизонтали */
-    align-items: center; /* Центрирование контента по вертикали */
-    z-index: 1000; /* Установим больший z-index для модального окна */
+  position: fixed; /* Фиксированное позиционирование относительно окна браузера */
+  top: 0;
+  left: 0;
+  width: 100%; /* Ширина на весь экран */
+  height: 100%; /* Высота на весь экран */
+  background-color: rgba(0, 0, 0, 0.05); /* Более темный полупрозрачный черный фон */
+  display: flex;
+  justify-content: center; /* Центрирование контента по горизонтали */
+  align-items: center; /* Центрирование контента по вертикали */
+  z-index: 1000; /* Установим больший z-index для модального окна */
 }
 
 body.modal-open {
-    overflow: hidden; /* Отключаем скролл */
+  overflow: hidden; /* Отключаем скролл */
 }
 
 .modal-edit .modal-content {
-    position: relative;
-    z-index: 1001; /* Установим больший z-index для содержания модального окна */
-    background: #fff; /* Установим белый фон для содержания модального окна */
-    padding: 20px; /* Немного паддинга для содержимого */
-    border-radius: 4px; /* Слегка скруглим углы */
+  position: relative;
+  z-index: 1001; /* Установим больший z-index для содержания модального окна */
+  background: #fff; /* Установим белый фон для содержания модального окна */
+  padding: 20px; /* Немного паддинга для содержимого */
+  border-radius: 4px; /* Слегка скруглим углы */
 }
 
 .close {
@@ -102,19 +102,19 @@ body.modal-open {
 }
 
 .small-input {
-    width: 150px; /* Измените значение ширины на желаемое */
+  width: 150px; /* Измените значение ширины на желаемое */
 }
 
 .small-input .mat-form-field-wrapper {
-    height: 10px; /* Измените на требуемую высоту */
+  height: 10px; /* Измените на требуемую высоту */
 }
 
 
 .small-input {
-    min-width: 100px;
-    max-width: 200px;
-    min-height: 10px;
-    max-height: 10px;
+  min-width: 100px;
+  max-width: 200px;
+  min-height: 10px;
+  max-height: 10px;
 }
 
 .modal-content {
@@ -131,9 +131,8 @@ body.modal-open {
 }
 
 .small-button {
-    padding: 5px 10px; /* Уменьшенные поля */
-    font-size: 14px; /* Меньший размер шрифта */
-
+  padding: 5px 10px; /* Уменьшенные поля */
+  font-size: 14px; /* Меньший размер шрифта */
 }
 
 .form-control {
@@ -158,19 +157,36 @@ body.modal-open {
     width: 150%; /* Установка ширины группы ввода */
     margin: auto; /* Центрирование группы ввода по горизонтали */
     min-width: 2500px; /* Минимальная ширина, чтобы поля не были слишком узкими на маленьких экранах */
-    left: 238px;
+    left: 200px;
+    text-align: center;
  }
 
 .input-group label {
-    margin-left: 60px; /* Добавляет отступ слева для метки */
+  margin-left: 75px; /* Добавляет отступ слева для метки */
 }
 
 .input-group.custom-input-group label {
-    margin-left: 80px; /* Увеличение отступа слева для меток в новом классе */
+  margin-left: 80px; /* Увеличение отступа слева для меток в новом классе */
 }
 
 .input-group.custom-input-group {
-    left: 238px; /* Сдвиг влево для нового класса */
+  left: 238px; /* Сдвиг влево для нового класса */
+}
+
+.input-group-publish {
+  display: flex;
+  flex-direction: column; /* Создание колонны для вертикального выравнивания */
+  align-items: flex-start; /* Выравнивание элементов в начале контейнера */
+  margin-bottom: 20px; /* Расстояние между группами */
+  width: 150%; /* Установка ширины группы ввода */
+  margin: auto; /* Центрирование группы ввода по горизонтали */
+  min-width: 2500px; /* Минимальная ширина, чтобы поля не были слишком узкими на маленьких экранах */
+  left: 2100px;
+  text-align: center;
+}
+
+.input-group-publish label {
+  margin-left: 15px; /* Добавляет отступ слева для метки */
 }
 
 #userNameSelect {

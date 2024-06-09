@@ -64,23 +64,24 @@ input[type="number"] {
 }
 
 .modal {
-    position: fixed; /* Фиксированное позиционирование относительно окна браузера */
-    top: 0;
-    left: 0;
-    width: 100%; /* Ширина на весь экран */
-    height: 100%; /* Высота на весь экран */
-    background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный черный фон */
-    display: flex;
-    justify-content: center; /* Центрирование контента по горизонтали */
-    align-items: center; /* Центрирование контента по вертикали */
+  position: fixed; /* Фиксированное позиционирование относительно окна браузера */
+  top: 0;
+  left: 0;
+  width: 100%; /* Ширина на весь экран */
+  height: 100%; /* Высота на весь экран */
+  background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный черный фон */
+  display: flex;
+  justify-content: center; /* Центрирование контента по горизонтали */
+  align-items: center; /* Центрирование контента по вертикали */
+  z-index: 1000; /* Высокий z-index для перекрытия другого контента */
 }
 
 .modal-content {
-    background-color: white;
-    padding: 20px;
-    border: 1px solid #ddd;
-    width: 50%;
-    min-width: 300px;
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ddd;
+  width: 45%;
+  min-width: 300px;
   text-align: center; /* Выравнивание текста по центру */
 }
 
@@ -113,4 +114,10 @@ input[type="number"] {
   position: relative;
 }
 
-
+.modal-edit .modal-content {
+  position: relative;
+  z-index: 1001; /* Установим больший z-index для содержания модального окна */
+  background: #fff; /* Установим белый фон для содержания модального окна */
+  padding: 20px; /* Немного паддинга для содержимого */
+  border-radius: 4px; /* Слегка скруглим углы */
+}
