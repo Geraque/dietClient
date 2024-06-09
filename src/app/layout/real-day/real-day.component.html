@@ -99,7 +99,7 @@
           </div>
         </div>
         <!-- Элементы для добавления ингредиентов видны только если пользователь является диетологом -->
-        <ng-container *ngIf="isDietician">
+        <ng-container *ngIf="isDietician && checkPublish()">
           <select #selectedIngredient (change)="onSelectIngredient($event, day, meal)"
                   class="form-control">
             <option *ngFor="let ingredient of ingredients" [ngValue]="ingredient">

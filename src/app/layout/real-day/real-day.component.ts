@@ -359,4 +359,9 @@ export class RealDayComponent {
       saveAs(blob, 'plan.xlsx');
     });
   }
+
+  checkPublish(): boolean {
+    const currentPlan = this.plans.find(plan => plan.planId === this.selectedPlanId);
+    return !currentPlan.ready;
+  }
 }
