@@ -10,6 +10,7 @@ import {RealDay} from '../../models/RealDay';
 import {DayOfWeek} from '../../models/DayOfWeek';
 import {EatingTime} from '../../models/EatingTime';
 import {Plan} from '../../models/Plan';
+import {saveAs} from 'file-saver';
 
 import * as moment from 'moment';
 
@@ -345,5 +346,17 @@ export class RealDayComponent {
       result = this.currentWeek.get(day)
     }
     return result;
+  }
+
+  printPlan(): void {
+    console.log("this.currentWeek: " + this.currentWeek);
+    const startWeek = this.currentWeek.get("ПОНЕДЕЛЬНИК");
+    const endWeek = this.currentWeek.get("ВОСКРЕСЕНЬЕ");
+    console.log("startWeek: " + startWeek);
+    console.log("tendWeek: " + endWeek);
+    this.planService.printPlanReal(this.selectedPlanId, startWeek, endWeek).subscribe((data) => {
+      const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+      saveAs(blob, 'plan.xlsx');
+    });
   }
 }

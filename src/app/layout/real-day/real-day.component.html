@@ -12,10 +12,17 @@
       {{ plan.name }}
     </option>
   </select>
-  <div class="week-selector">
-    <button (click)="showPreviousWeek()">←</button>
-    <span>{{ currentWeekLabel }}</span>
-    <button (click)="showNextWeek()">→</button>
+  <div style="display: flex; justify-content: space-between;">
+    <div class="week-selector">
+      <button (click)="showPreviousWeek()">←</button>
+      <span>{{ currentWeekLabel }}</span>
+      <button (click)="showNextWeek()">→</button>
+    </div>
+    <!-- Кнопка скачивания плана -->
+    <button mat-flat-button color="primary"
+            style="width: 19.5%; margin-right: 800px; margin-bottom: 10px;" (click)="printPlan()">
+      Скачать план
+    </button>
   </div>
   <table>
     <thead>
