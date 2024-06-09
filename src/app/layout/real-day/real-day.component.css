@@ -31,7 +31,7 @@ input[type="number"] {
 }
 
 .form-control {
-    margin-bottom: 20px; /* Расстояние снизу */
+    margin-bottom: 10px; /* Расстояние снизу */
 }
 
 .modal-edit {
@@ -119,4 +119,22 @@ body.modal-open {
   cursor: pointer;
   font-size: 24px;
   font-weight: bold;
+}
+
+.small-button {
+  height: 20px; /* Высота кнопки */
+  width: 24px;  /* Ширина кнопки */
+  min-width: 10px;
+  padding: 0; /* Минимизируем внутренние отступы */
+  font-size: 12px; /* Размер шрифта */
+}
+
+.week-selector {
+  padding-bottom: 8px;
+  margin-top: 0px;
+}
+
+.week-selector .small-button {
+    margin-left: 5px;
+    margin-right: 5px;
 }
