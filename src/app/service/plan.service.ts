@@ -131,7 +131,11 @@ constructor(private http: HttpClient) { }
     return this.http.get('http://localhost:8080/api/print/' + planId, { responseType: 'blob' });
   }
 
-  printPlanReal(planId: number, startWeek: string, endWeek: string): Observable<any> {
+  printWeek(planId: number, startWeek: string, endWeek: string): Observable<any> {
     return this.http.get('http://localhost:8080/api/print/' + planId + '/' + startWeek + '/' + endWeek, { responseType: 'blob' });
+  }
+
+  printPlanReal(planId: number): Observable<any> {
+    return this.http.get('http://localhost:8080/api/print/' + planId + '/real', { responseType: 'blob' });
   }
 }
